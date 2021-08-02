@@ -30,6 +30,8 @@ public interface ActiveRecord<T> extends Record<T> {
      */
     ActiveRecord<T> in(String field, Object[] values);
 
+    ActiveRecord<T> emptyStringAsNullCondition();
+
     /**
      * <p>in.</p>
      *

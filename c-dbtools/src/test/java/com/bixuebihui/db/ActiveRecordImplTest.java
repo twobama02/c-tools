@@ -1,5 +1,6 @@
 package com.bixuebihui.db;
 
+import com.bixuebihui.DbException;
 import com.bixuebihui.datasource.DataSourceTest;
 import com.bixuebihui.datasource.DbcpDataSource;
 import com.bixuebihui.jdbc.AbstractBaseDao;
@@ -53,8 +54,10 @@ public class ActiveRecordImplTest extends TestCase {
 		DbHelper db = new DbHelper();
 		db.setDataSource(ds);
 		cn = db.getConnection();
-		db.executeNoQuery("drop table test", cn);
-		db.executeNoQuery("drop table test1", cn);
+		try {
+			db.executeNoQuery("drop table test", cn);
+			db.executeNoQuery("drop table test1", cn);
+		}catch (DbException e){}
 		db.executeNoQuery(
 				"create table test(id int, name varchar(100), value int default 0, createtime timestamp)", cn);
 		db.executeNoQuery(
@@ -95,6 +98,23 @@ public class ActiveRecordImplTest extends TestCase {
 		assertEquals(2, res);
 		long inc = Long.parseLong(bd.ar().eq("ID", 123).get("value").toString());
 		assertEquals(1, inc);
+	}
+
+	public void testEmptyStringAsNullCondition() {
+		StringBuffer res1 = bd.ar().emptyStringAsNullCondition()
+				.eq("name","")
+				.eq("id", null)
+				.eq("value","1").getSql().getCondition();
+		assertEquals(" where value = ?", res1.toString());
+
+		StringBuffer res = bd.ar()
+				.eq("name","")
+				.eq("id", null)
+				.eq("value","1").getSql().getCondition();
+
+		assertEquals(" where name = ? and value = ?", res.toString());
+
+
 	}
 
 	public void testUpdate() {

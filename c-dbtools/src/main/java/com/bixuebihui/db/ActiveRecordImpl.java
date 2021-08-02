@@ -77,6 +77,12 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		return this;
 	}
 
+	@Override
+	public ActiveRecord<T> emptyStringAsNullCondition() {
+		filterStack.setAcceptEmptyStringAsNullObjectInCondition(true);
+		return this;
+	}
+
 
 	/** {@inheritDoc} */
 	@Override

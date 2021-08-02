@@ -67,6 +67,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
     public static final int H2 = 8;
 
 
+
     static {
         ConvertUtils.register(new DateConverter(null), Date.class);
         ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
@@ -1609,6 +1610,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
     public ActiveRecord<T> ar() {
         return new ActiveRecordImpl<>(this);
     }
+
 
     /**
      * <p>ar.</p>

@@ -18,6 +18,11 @@ import java.util.Map.Entry;
 public class SqlHelper {
 
 	List<BaseFilter> filters;
+	List<SqlHelper> orCond = null;
+	List<SqlHelper> notCond = null;
+	private int databaseType = BaseDao.MYSQL;
+	private boolean useNullAsCondition = false;
+	private boolean acceptEmptyStringAsNullObjectInCondition = false;
 
 	/**
 	 * <p>Constructor for SqlHelper.</p>
@@ -37,19 +42,22 @@ public class SqlHelper {
 		}
 		this.databaseType = src.databaseType;
 		this.useNullAsCondition = src.useNullAsCondition;
+		this.acceptEmptyStringAsNullObjectInCondition = src.acceptEmptyStringAsNullObjectInCondition;
 	}
-	private int databaseType = BaseDao.MYSQL;
-
-	List<SqlHelper> orCond = null;
-	List<SqlHelper> notCond = null;
-
-	private boolean useNullAsCondition = false;
 
 	/**
 	 * <p>Constructor for SqlHelper.</p>
 	 */
 	public SqlHelper() {
 		filters = new ArrayList<>();
+	}
+
+	public boolean isAcceptEmptyStringAsNullObjectInCondition() {
+		return acceptEmptyStringAsNullObjectInCondition;
+	}
+
+	public void setAcceptEmptyStringAsNullObjectInCondition(boolean acceptEmptyStringAsNullObjectInCondition) {
+		this.acceptEmptyStringAsNullObjectInCondition = acceptEmptyStringAsNullObjectInCondition;
 	}
 
 	/**
@@ -124,9 +132,22 @@ public class SqlHelper {
 		return toCondition();
 	}
 
+
+	private boolean isNotNull(Object v){
+		if(v==null){
+			return false;
+		}
+		if(!acceptEmptyStringAsNullObjectInCondition){
+			return true;
+		}
+		if(v.equals("")){
+			return false;
+		}
+		return true;
+	}
 	private void buildCriteria(SqlPocket criteria, BaseFilter f)
 	{
-		if (f.value != null || useNullAsCondition || f instanceof NullFilter ) {
+		if (isNotNull(f.value) || useNullAsCondition || f instanceof NullFilter ) {
 			f.build(criteria);
 		}
 	}
@@ -169,6 +190,16 @@ public class SqlHelper {
 	 */
 	public int getDatabaseType() {
 		return databaseType;
+	}
+
+	/**
+	 * 设置数据库类型
+	 *
+	 * @param databaseType
+	 *            采用BaseDao里的数据类型定义
+	 */
+	public void setDatabaseType(int databaseType) {
+		this.databaseType = databaseType;
 	}
 
 	/**
@@ -354,20 +385,10 @@ public class SqlHelper {
 		filters.add(new LtFilter(field, value));
 		return this;
 	}
+
 	public SqlHelper smallerOrEqualThan(String field, Object value) {
 		filters.add(new LeFilter(field, value));
 		return this;
-	}
-
-
-	/**
-	 * 设置数据库类型
-	 *
-	 * @param databaseType
-	 *            采用BaseDao里的数据类型定义
-	 */
-	public void setDatabaseType(int databaseType) {
-		this.databaseType = databaseType;
 	}
 
 	/**
