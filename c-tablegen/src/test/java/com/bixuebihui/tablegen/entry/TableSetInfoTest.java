@@ -173,4 +173,11 @@ public class TableSetInfoTest {
         setInfo.initIndex(t.getConfig(), metaData, testGen);
         System.out.println(setInfo.getTableIndexes(testGen));
     }
+
+    @Test
+    void replaceComment() {
+        String comment ="'审核状态 0未审核 1通过审核 2不通过审核',";
+        String s = TableSetInfo.replaceComment(comment);
+        assertEquals("审核状态 0未审核 1通过审核 2不通过审核", s);
+    }
 }

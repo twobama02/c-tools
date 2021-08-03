@@ -121,10 +121,20 @@ public class TableSetInfo {
         return classCommentTmp;
     }
 
-    private static String replaceComment(String classCommentTmp) {
-        classCommentTmp = StringUtils.replace(classCommentTmp, "\n", "");
-        classCommentTmp = StringUtils.replace(classCommentTmp, "\t", "");
+    protected static String replaceComment(String classCommentTmp) {
+        classCommentTmp = StringUtils.replace(classCommentTmp, "\n", " ");
+        classCommentTmp = StringUtils.replace(classCommentTmp, "\t", " ");
         classCommentTmp = StringUtils.trim(classCommentTmp);
+
+        //classCommentTmp.stripLeading("'").stripTrailing("',");
+        if(classCommentTmp.startsWith("'")){
+            classCommentTmp = classCommentTmp.substring(1);
+        }
+
+        if(classCommentTmp.endsWith("',")){
+            classCommentTmp = classCommentTmp.substring(0, classCommentTmp.length()-2);
+        }
+
         return classCommentTmp;
     }
 
