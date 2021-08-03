@@ -30,6 +30,10 @@ public interface ActiveRecord<T> extends Record<T> {
      */
     ActiveRecord<T> in(String field, Object[] values);
 
+    /**
+     * Call this method will reject empty string as where condition value
+     * @return this
+     */
     ActiveRecord<T> emptyStringAsNullCondition();
 
     /**

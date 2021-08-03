@@ -8,6 +8,8 @@ import javax.sql.DataSource;
 import {{config.packageName}}{{viewModifier}}.business.*;
 import {{config.packageName}}{{viewModifier}}.pojo.*;
 import com.bixuebihui.jdbc.RowMapperResultReader;
+import com.bixuebihui.DbException;
+
 import {{config.packageName}}.BaseList;
 
 import javax.annotation.processing.Generated;
@@ -196,13 +198,13 @@ public class {{className}}  extends BaseList<{{pojoClassName}}, {{firstKeyType}}
     {{! writeDummyUpdate(tableName, "updateByKey"); }}
     @Override
     public boolean updateByKey({{pojoClassName}} info)  {
-        throw new SQLException("This operation is not supported, because table {{tableName}} not have a unique key!");
+        throw new DbException("This operation is not supported, because table {{tableName}} not have a unique key!");
     }
 
     {{! writeDummyDelete(tableName, keyData, "deleteByKey", colData); }}
     @Override
     public boolean deleteByKey({{firstKeyType}}  key)  {
-        throw new SQLException("This operation is not supported, because table {{ tableName }} not have a unique key!");
+        throw new DbException("This operation is not supported, because table {{ tableName }} not have a unique key!");
     }
 {{/if}}
 {{#each foreignKeyData}}

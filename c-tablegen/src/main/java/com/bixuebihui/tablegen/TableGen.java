@@ -91,7 +91,6 @@ public class TableGen implements DiffHandler {
     }
 
     public TableGen() {
-        LOG.warn("use this constructor in TableGen is deprecated!");
     }
 
     /**
