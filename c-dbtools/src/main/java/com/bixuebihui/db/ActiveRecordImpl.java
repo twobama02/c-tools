@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.validation.constraints.NotNull;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA. User: Administrator Date: 13-4-18 Time: 下午5:57 To
@@ -188,6 +185,15 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 
 	/** {@inheritDoc} */
 	@Override
+	public ActiveRecord<T> orderByIn(String field, Object[] order) {
+		if(operator.getDbType()!=BaseDao.DERBY) {
+			orderStack.addSortByIn(field, order);
+		}
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public ActiveRecord<T> limit(int begin, int num) {
 		limit = new SqlLimit(begin, num);
 		return this;
@@ -201,13 +207,21 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 
 			return operator.selectWithJoin(resultFields, where, params, parseOrder(),
 					limit.getBegin(), limit.getEnd());
 		} finally {
 			clear();
 		}
+	}
+
+	protected List<Object> getParams(){
+		List<Object> res = sqlPocket.getParams();
+		if(operator.getDbType()!= BaseDao.DERBY) {
+			res.addAll(orderStack.getParams());
+		}
+		return res;
 	}
 
 	/**
@@ -218,7 +232,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			String select = "select " + resultFields + " from " + operator.getTableName() + " ";
 			return operator.select(select, where, parseOrder(), params, limit.getBegin(),
 					limit.getEnd(), clz);
@@ -264,7 +278,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			List<T> res = operator.selectWithJoin(resultFields, where, params, parseOrder(),
 					SqlLimit.LIMIT_ONE.getBegin(), SqlLimit.LIMIT_ONE.getEnd());
 			if (res.size() > 0) {
@@ -285,7 +299,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			if (where.length() < 10) {
 				return false;
 			}
@@ -310,7 +324,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 	public Object get(String field) throws DbException {
 		try {
 			String sql = getVectorSql(field);
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			if (cn == null) {
 				return operator.getDbHelper().executeScalar(sql, params);
 			}
@@ -327,7 +341,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 	public List<Object> getVector(String field) throws DbException {
 		try {
 			String sql = getVectorSql(field);
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			final List<Object> res = new ArrayList<>();
 			RowCallbackHandler handle = resultSet -> res.add(resultSet.getObject(1));
 			operator.getDbHelper().executeQuery(sql, params, handle);
@@ -345,7 +359,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 	public List<Long> getLongVector(String field) throws DbException {
 		try {
 			String sql = getVectorSql(field);
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			final List<Long> res = new ArrayList<>();
 
 			operator.getDbHelper().executeQuery(sql, params, new LongReader(res));
@@ -394,7 +408,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		return sqlPocket;
 	}
 
-	private String parseOrder() {
+	protected String parseOrder() {
 		return this.orderStack.toString();
 	}
 
@@ -406,7 +420,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			return operator.countWhere(where, params);
 		} finally {
 			clear();
@@ -421,7 +435,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			return operator.exists(where, params);
 		} finally {
 			clear();
@@ -456,6 +470,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		return this.order(field, ORDER_ASC);
 	}
 
+
 	/** {@inheritDoc} */
 	@Override
 	public ActiveRecord<T> desc(String field) {
@@ -469,7 +484,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 	public List<String> getStringVector(String field) throws DbException {
 		try {
 			String sql = getVectorSql(field);
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			final List<String> res = new ArrayList<>();
 			RowCallbackHandler handle = resultSet -> res.add(resultSet.getString(1));
 			operator.getDbHelper().executeQuery(sql, params, handle );
@@ -523,7 +538,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 
 			String where = formWhereClause();
 
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 
 			List<CountValue> res =  operator.countGroupValue(field, fun.toString(), where,
 					null, null, params);
@@ -542,7 +557,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 		try {
 			sqlPocket = this.getSql();
 			String whereClause = formWhereClause();
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 			String sql = "update " + operator.getTableName()
 					+ " set " + field + "=" + field + "+1 " + whereClause;
 			if (cn==null) {
@@ -585,7 +600,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 				}
 			}
 
-			Collections.addAll(params, sqlPocket.getParams().toArray());
+			Collections.addAll(params, getParams().toArray());
 
 			String sql ="update "+operator.getTableName()+" set "+
 					sb.toString()+ whereClause;
@@ -613,7 +628,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 
 			String where = formWhereClause();
 
-			Object[] params = sqlPocket.getParams().toArray();
+			Object[] params = getParams().toArray();
 
 			List<CountObject<K>> res =  operator.countGroupObject(field, fun.toString(), where,
 					null, null, objectType, params);

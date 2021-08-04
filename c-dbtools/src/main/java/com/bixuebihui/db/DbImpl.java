@@ -434,6 +434,11 @@ public class DbImpl<T, V> extends BaseDao<T, V> implements ActiveRecord<T>,
 		return null;
 	}
 
+	@Override
+	public ActiveRecord<T> orderByIn(String field, Object[] in) {
+		return null;
+	}
+
 
 	/**
 	 * {@inheritDoc}

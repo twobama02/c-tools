@@ -10,6 +10,7 @@ import com.bixuebihui.jdbc.entity.CountObject;
 import com.bixuebihui.jdbc.entity.CountValue;
 import com.bixuebihui.db.Record.GroupFunction;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -79,14 +80,14 @@ public class ActiveRecordImplTest extends TestCase {
 		// boolean res = JDBCUtils.tableOrViewExists(null, null, "%", cn);
 	}
 
-	public void testAlias() throws SQLException {
+	public void testAlias() {
 
 		Object obj = bd.ar().alias("t1").eq("t1.id", 123).find();
 		System.out.println(((T) obj).id);
 		assertEquals(123L, ((T) obj).id.longValue());
 	}
 
-	public void testFields() throws SQLException {
+	public void testFields() {
 		Object obj = bd.ar().alias("t1").fields("name,id").eq("t1.id", 123).find();
 		System.out.println(((T) obj).name);
 		assertEquals("bac", ((T) obj).name);
@@ -202,6 +203,26 @@ public class ActiveRecordImplTest extends TestCase {
 
 
 	}
+
+
+//	@Test
+//	public void testSortIn() {
+//		Object[] in = new Object[]{3, 1, 2};
+//		ActiveRecord<Object> ar = bd.ar().alias("t1").in("t1.id", in).orderByIn("t1.id", in);
+//		SqlHelper t1 =ar.getCondStack();
+//
+//		ar.getSql();
+//
+//
+//		assertEquals(3, t1.build().getParams().size());
+//		assertEquals(6, ((ActiveRecordImpl)ar).getParams().size());
+//
+//		assertEquals(" where t1.id in (?,?,?)", t1.toCondition().getCondition().toString());
+//		assertEquals(" order by  field( t1.id,?,?,?)", ((ActiveRecordImpl<?, ?>) ar).parseOrder());
+//		//List<Object> res = ar.findAll();
+//
+//	}
+
 
 
 	/*

@@ -117,6 +117,34 @@ public interface ActiveRecord<T> extends Record<T> {
      */
     ActiveRecord<T> asc(String field);
 
+
+    /**
+     * Sort by given order
+     *  e.g. select FirstName from DemoTable where Id IN(4,5,6) order by field(Id,4,5,6);
+     *  +----+-----------+
+     * | Id | FirstName |
+     * +----+-----------+
+     * |  1 | Chris     |
+     * |  2 | Robert    |
+     * |  3 | Mike      |
+     * |  4 | Sam       |
+     * |  5 | Carol     |
+     * |  6 | David     |
+     * +----+-----------+
+     * result
+     * +-----------+
+     * | FirstName |
+     * +-----------+
+     * | Sam       |
+     * | Carol     |
+     * | David     |
+     * +-----------+
+     * @param field field name
+     * @param in fields value in IN clause
+     * @return this
+     */
+    ActiveRecord<T> orderByIn(String field, Object[] in);
+
     /**
      * <p>desc.</p>
      *

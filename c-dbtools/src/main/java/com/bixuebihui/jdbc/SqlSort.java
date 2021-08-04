@@ -3,7 +3,10 @@
  */
 package com.bixuebihui.jdbc;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,7 +17,7 @@ import java.util.List;
  */
 public class SqlSort {
 
-	List<Sort> sorts = new ArrayList<>();
+	List<Sortable> sorts = new ArrayList<>();
 
     /**
      * <p>addSort.</p>
@@ -24,6 +27,10 @@ public class SqlSort {
      */
     public void addSort(String property, String order) {
         sorts.add(new Sort(property, order));
+    }
+
+    public void addSortByIn(String property, Object[] order) {
+        sorts.add(new SortByIn(property, order));
     }
 
     /**
@@ -55,8 +62,12 @@ public class SqlSort {
         }
 
         StringBuilder criteria = new StringBuilder(" order by ");
-        for (Sort sort : sorts) {
-            buildCriteria(criteria, sort.getProperty(), sort.getOrder());
+        for (Sortable sort : sorts) {
+            if(sort instanceof Sort) {
+                buildCriteria(criteria, ((Sort)sort).getProperty(), ((Sort)sort).getOrder());
+            }else if(sort instanceof SortByIn){
+                buildCriteria(criteria, ((SortByIn)sort).getProperty(), ((SortByIn)sort).getIds());
+            }
         }
 
         if (criteria.lastIndexOf(",") == criteria.length() - 1) {
@@ -73,11 +84,29 @@ public class SqlSort {
 			criteria.append(property).append(" ").append(Sort.DESC).append(",");
 		}
 	}
+    private void buildCriteria(StringBuilder criteria, String property,
+                               Object[] order) {
+        if(order ==null || order.length==0){return;}
 
+        criteria.append(" field( "+property+","+ StringUtils.repeat("?",",", order.length)+")");
+    }
+
+    public  List<Object> getParams(){
+        List<Object> res = new ArrayList<>();
+        for(Sortable sort: sorts){
+            if(sort instanceof SortByIn){
+                res.addAll(Arrays.asList(((SortByIn)sort).getIds()));
+            }
+        }
+        return res;
+    }
+
+
+	public interface Sortable{}
     /**
      * Sort 为不变类， 便于克隆
      */
-    public static class Sort {
+    public static class Sort implements Sortable{
 
 
         public final static String ASC = "asc";
@@ -97,6 +126,24 @@ public class SqlSort {
 
         public String getOrder() {
             return order;
+        }
+    }
+
+    public static class SortByIn implements Sortable{
+        private final String property;
+        private final Object[] order;
+
+        public SortByIn(String property, Object[] ids) {
+            this.property = property;
+            this.order = ids;
+        }
+
+        public String getProperty() {
+            return property;
+        }
+
+        public Object[] getIds() {
+            return this.order;
         }
     }
 

@@ -172,7 +172,7 @@ public interface Record<T> {
 	 */
 	int update(String fields, Object values)throws DbException;
 
-	/**
+    /**
 	 * group by function
 	 */
 	enum GroupFunction {
