@@ -8,7 +8,7 @@
        Note use of xml rules for character escaping. -->
    <Alias
   	name="test1"
-  	driver="com.mysql.jdbc.Driver"
+  	driver="com.mysql.cj.jdbc.Driver"
   	url="jdbc:mysql://localhost/test?autoReconnect=true&amp;zeroDateTimeBehavior=convertToNull&amp;noAccessToProcedureBodies=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;mysqlEncoding=utf8&amp;connectTimeout=100&amp;socketTimeout=500&amp;useSSL=false"
   	username="test"
   	password="test123"

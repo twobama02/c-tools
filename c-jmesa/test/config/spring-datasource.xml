@@ -10,7 +10,7 @@
             <value>test</value>
         </property>
         <property name="className">
-            <value>com.mysql.jdbc.Driver</value>
+            <value>com.mysql.cj.jdbc.Driver</value>
         </property>
         <property name="dburl">
             <value>${dburl}</value>

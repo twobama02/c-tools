@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.yujiaao</groupId>
         <artifactId>c-tools-parent</artifactId>
-        <version>1.5.2</version>
+        <version>1.6.0</version>
     </parent>
     <artifactId>tablegen-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
@@ -15,17 +15,17 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.6.1</version>
                 <configuration>
                     <mojoDependencies>
                         <param>c.c.h:plugin</param>

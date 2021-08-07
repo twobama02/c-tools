@@ -1,7 +1,7 @@
 projectname=test
 alias=test1
 
-className=com.mysql.jdbc.Driver
+className=com.mysql.cj.jdbc.Driver
 dburl=jdbc:mysql://localhost:3306/test
 username=test
 password=test123

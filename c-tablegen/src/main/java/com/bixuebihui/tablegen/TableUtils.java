@@ -60,7 +60,7 @@ public class TableUtils {
     /**
      * Selects the primary keys for a particular table.
      *
-     * @throws SQLException
+     * @throws SQLException if any
      */
     public static List<String> getTableKeys(DatabaseMetaData metaData,
                                             String catalog, String schema, String tableName)
@@ -284,10 +284,10 @@ public class TableUtils {
      * AND A.REFERENCED_TABLE_NAME = 'Forum'
      * ORDER BY A.TABLE_SCHEMA , A.TABLE_NAME , A.ORDINAL_POSITION;
      *
-     * @param dbHelper
-     * @param databaseName
-     * @return
-     * @throws SQLException
+     * @param dbHelper datasource helper
+     * @param databaseName database name
+     * @return result of schema
+     * @throws SQLException if any
      */
     public static Map<String, List<ForeignKeyDefinition>> getAllMySQLExportKeys(IDbHelper dbHelper, String databaseName) throws SQLException {
         String sql = "SELECT\n" +
@@ -395,7 +395,7 @@ public class TableUtils {
         return map;
     }
 
-    private static List<ForeignKeyDefinition> getFkDefinitions(IDbHelper dbHelper, String databaseName, String sql, Map<String, List<ForeignKeyDefinition>> map) throws SQLException {
+    private static List<ForeignKeyDefinition> getFkDefinitions(IDbHelper dbHelper, String databaseName, String sql, Map<String, List<ForeignKeyDefinition>> map) {
         return dbHelper.executeQuery(sql, new Object[]{databaseName}, new RowMapperResultReader<>((r, index) -> {
 
             String sFKName = r.getString("FK_NAME"); //12
@@ -498,8 +498,8 @@ public class TableUtils {
 
                 if (tableOwner != null
                         && tables.getString(2) != null
-                        && !tableOwner.toUpperCase().equals(
-                        tables.getString(2).toUpperCase())) {
+                        && !tableOwner.equalsIgnoreCase(
+                        tables.getString(2))) {
                     continue;
                 }
 
@@ -547,8 +547,8 @@ public class TableUtils {
         }
 
         Object[] st = includeTablesList.keySet().toArray();
-        for (int i = 0; i < st.length; i++) {
-            if (tableName.matches(st[i].toString())) {
+        for (Object o : st) {
+            if (tableName.matches(o.toString())) {
                 return true;
             }
         }
@@ -749,17 +749,17 @@ public class TableUtils {
             if ("String".equals(cd.getJavaType())) {
                 //if columns is JSON type, there is no column size.
                 if (sb.indexOf("@Size") < 0 && cd.getColumns()>0) {
-                    sb.append("    @Size(max=").append(cd.getColumns()).append(")\n");
+                    sb.append("@Size(max=").append(cd.getColumns()).append(")\n");
                 }
             }
             if (isNeedNotNullAnnotation(config, cd)) {
                 if (sb.indexOf("@NotNull") < 0) {
-                    sb.append("    @NotNull\n");
+                    sb.append("@NotNull\n");
                 }
             }
 
             if(config.use_swagger && StringUtils.isNotBlank(cd.getComment())){
-                sb.append("    @ApiModelProperty(value = \"").append(cd.getComment()).append("\")");
+                sb.append("@Schema(title = \"").append(cd.getComment()).append("\")");
             }
         }
 

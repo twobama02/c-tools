@@ -1,7 +1,6 @@
 package com.bixuebihui.test.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,7 @@ import java.security.Permission;
  */
 @RestController
 @RequestMapping("/datasource")
-@Api(tags = "开发人员工具-数据源", value = "数据源")
+@Tag(name = "开发人员工具-数据源")
 //@Authorize(permission = "datasource", description = "数据源管理")
 public class TestController {
 

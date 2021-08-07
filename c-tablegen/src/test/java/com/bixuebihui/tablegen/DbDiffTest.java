@@ -57,7 +57,7 @@ public class DbDiffTest {
 	public void testDbDiff() throws SQLException, IOException {
 
 		DatabaseConfig config = new DatabaseConfig();
-		String className="com.mysql.jdbc.Driver";
+		String className="com.mysql.cj.jdbc.Driver";
 		config.setClassName(className);
 
 		String dburl="jdbc:mysql://localhost:3306/ssll";

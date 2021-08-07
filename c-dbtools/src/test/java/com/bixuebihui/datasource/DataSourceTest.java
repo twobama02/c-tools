@@ -26,7 +26,7 @@ public class DataSourceTest extends TestCase {
 	protected static DatabaseConfig cfg = new DatabaseConfig();
 	static {
 		cfg.setAlias("test1");
-		cfg.setClassName("com.mysql.jdbc.Driver");
+		cfg.setClassName("com.mysql.cj.jdbc.Driver");
 		cfg.setUsername("test");
 		cfg.setPassword("test123");
 		cfg.setDburl(
@@ -252,9 +252,9 @@ public class DataSourceTest extends TestCase {
 		}
 		DatabaseConfig cfg = new DatabaseConfig();
 		cfg.setAlias("derby");
-		cfg.setClassName("org.apache.derby.jdbc.EmbeddedDriver");
+		//cfg.setClassName("org.apache.derby.jdbc.EmbeddedDriver");
 		// for java 9 derby 10.15.x
-		//cfg.setClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
+		cfg.setClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
 		cfg.setUsername("");
 		cfg.setPassword("");
 		cfg.setDburl("jdbc:derby:"+dbName+";create=true");

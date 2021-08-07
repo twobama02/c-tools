@@ -5,7 +5,6 @@ import com.bixuebihui.datasource.DataSourceTest;
 import com.bixuebihui.datasource.DbcpDataSource;
 import com.bixuebihui.db.ActiveRecord;
 import com.bixuebihui.jdbc.aop.DbHelperAroundAdvice;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.framework.ProxyFactory;
 
@@ -15,9 +14,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class BaseDaoTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-	public void testGetCount() throws SQLException {
+public class BaseDaoTest  {
+
+	public void testGetCount() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfig());
 		IDbHelper db = new DbHelper();
@@ -35,11 +37,9 @@ public class BaseDaoTest extends TestCase {
 		System.out.println(bd.getCount(bd.getTableName(), ""));
 	}
 
-	public void testGetPagingSqlOracle() {
-	}
 
 
-	private void derbySql() throws SQLException {
+	private void derbySql() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfigDerby());
 		IDbHelper db = new DbHelper();
@@ -56,7 +56,7 @@ public class BaseDaoTest extends TestCase {
 		System.out.println(bd.getPagingSql("select * from test", 20, 40));
 	}
 
-	public void testGetPagingSql() throws SQLException {
+	public void testGetPagingSql() {
 
 		derbySql();
 	}
@@ -99,7 +99,7 @@ public class BaseDaoTest extends TestCase {
 	}
 
 
-	public void testGetUpdateSql() throws SQLException {
+	public void testGetUpdateSql() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfigDerby());
 		IDbHelper db = new DbHelper();
@@ -119,7 +119,7 @@ public class BaseDaoTest extends TestCase {
 				new String[] { "files1" }, "where 1=1")));
 	}
 
-	public void testAr() throws SQLException {
+	public void testAr() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfigDerby());
 		DbHelper db = new DbHelper();
@@ -176,7 +176,7 @@ public class BaseDaoTest extends TestCase {
 	}
 
 
-	public void testSelectK() throws SQLException{
+	public void testSelectK() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfigDerby());
 		DbHelper db = new DbHelper();
@@ -220,7 +220,7 @@ public class BaseDaoTest extends TestCase {
 	}
 
 
-	public void testGetSingleObject() throws SQLException{
+	public void testGetSingleObject() {
 		DbcpDataSource ds = new DbcpDataSource();
 		ds.setDatabaseConfig(DataSourceTest.getConfigDerby());
 		DbHelper db = new DbHelper();
@@ -229,7 +229,7 @@ public class BaseDaoTest extends TestCase {
 
 		try{
 			db.executeNoQuery("drop table test",cn);}catch(DbException ex){
-				ex.printStackTrace();
+			//	ex.printStackTrace();
 			}
 		try{
 			db.executeNoQuery("create table test(id int, name varchar(100), dt timestamp  default current_timestamp)",
@@ -399,7 +399,7 @@ public class BaseDaoTest extends TestCase {
 		IDbHelper dbHelper = (IDbHelper) obj.getProxy();
 
 		try{
-			dbHelper.executeNoQuery("drop table test2");}catch(Exception ex){
+			dbHelper.executeNoQuery("drop table test2");}catch(Exception ignored){
 		}
 		try{
 			dbHelper.executeNoQuery("create table test2(id int, name_Snake varchar(100), dt timestamp  default current_timestamp, primary key (id))");

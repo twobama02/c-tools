@@ -2,8 +2,11 @@ package com.bixuebihui.db;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.*;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -13,9 +16,20 @@ import java.util.Set;
  * @version $Id: $Id
  */
 public class PojoValidator<T> {
+    static final Logger logger = LoggerFactory.getLogger(PojoValidator.class);
 
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
+    Validator validator;
+
+    public PojoValidator() {
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            validator = factory.getValidator();
+        }catch (Exception e){
+            logger.warn("Validator init error, annotation constrains will not work", e);
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * <p>validate.</p>
@@ -24,7 +38,10 @@ public class PojoValidator<T> {
      * @return a {@link java.util.Set} object.
      */
     public  Set<ConstraintViolation<T>> validate(T pojo){
-        return validator.validate(pojo);
+        if(validator!=null) {
+            return validator.validate(pojo);
+        }
+        return Collections.emptySet();
     }
 
     /**
@@ -96,10 +113,16 @@ public class PojoValidator<T> {
      */
     public Set<ConstraintViolation<T>> validate(Class<T> beanType,
                                                 String[] fieldNames, Object[] params){
+        if(validator ==null){
+            return Collections.emptySet();
+        }
+
         Set<ConstraintViolation<T>> res=null;
         int i=0;
         for(String propertyName:fieldNames){
-            Set<ConstraintViolation<T>> err = validator.validateValue(beanType,propertyName, params[i] );
+
+            Set<ConstraintViolation<T>> err =
+                    validator.validateValue(beanType,propertyName, params[i] );
             if(i==0) {
                 res = err;
             }else {

@@ -41,7 +41,7 @@ public class JavaGroupsBroadcastingListenerImpl extends
                 }
                 break;
             default:
-                LOG.warn("unknow type of message:" + message);
+                LOG.warn("unknown type of message:" + message);
         }
 
     }

@@ -32,3 +32,14 @@ To generate code please refer [`c-tablegen-demo`](c-tablegen-demo) project.
 
 ## TODO
 add async support for r2dbc.
+
+## version 2.0 
+migrate to Java 11
+
+use dependencies:
+
+ - io.swagger.core.v3:swagger-annotation:2.1.10
+ - mysql:mysql-connector-java:8.0.26
+ - org.hibernate.validator:hibernate-validator:6.2.0.Final
+
+

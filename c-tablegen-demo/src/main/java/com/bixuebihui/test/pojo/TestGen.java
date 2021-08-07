@@ -11,18 +11,16 @@ package com.bixuebihui.test.pojo;
  */
 
 
-import java.sql.*;
-import java.io.Serializable;
-import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.text.StringEscapeUtils;
 
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import javax.annotation.processing.Generated;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Generated("com.github.yujiaao:tablegen")
-@ApiModel(description ="测试表")
+@Schema(description ="测试表")
 public class TestGen  implements Serializable {
 
 
@@ -30,7 +28,7 @@ public class TestGen  implements Serializable {
     /**
     * id
     */
-        @ApiModelProperty(value = "这里是id!")
+        @Schema(title = "这里是id!")
     protected Integer  id;
 
 
@@ -38,28 +36,28 @@ public class TestGen  implements Serializable {
     * name
     */
         @Size(max=100)
-    @ApiModelProperty(value = "这里是名称！")
+    @Schema(title = "这里是名称！")
     protected String  name;
 
 
     /**
     * age
     */
-        @ApiModelProperty(value = "这里是年龄")
+        @Schema(title = "这里是年龄")
     protected Short  age;
 
 
     /**
     * birth
     */
-        @ApiModelProperty(value = "这里是日期！")
+        @Schema(title = "这里是日期！")
     protected Timestamp  birth;
 
 
     /**
     * edu_id
     */
-        @ApiModelProperty(value = "教育程度")
+        @Schema(title = "教育程度")
     protected Integer  eduId;
 
 
