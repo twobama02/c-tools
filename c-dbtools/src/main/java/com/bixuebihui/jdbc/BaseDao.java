@@ -294,7 +294,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param startNum  a int.
      * @param endNum    a int.
      * @return a {@link java.lang.String} object.
-     * @throws java.sql.SQLException if any.
      */
     public String getPagingSql(String selectSql, int startNum, int endNum) {
 
@@ -394,7 +393,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param dt a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
-     * @throws java.sql.SQLException if any.
      */
     public String getDateSql(String dt) {
         return getDateTimeSql(dt, false);
@@ -405,7 +403,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param dt a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
-     * @throws java.sql.SQLException if any.
      */
     public String getTimestampSql(String dt) {
         return getDateTimeSql(dt, true);
@@ -436,7 +433,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param dt a {@link java.util.Date} object.
      * @return a {@link java.lang.String} object.
-     * @throws java.sql.SQLException if any.
      */
     public String getDateSql(Date dt) {
         detectDbType();
@@ -491,7 +487,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * <p>getDBTYPE.</p>
      *
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     public int getDbType() {
         detectDbType();
@@ -520,7 +515,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * <p>count.</p>
      *
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     public int count() {
         return getCount(getTableName(), "");
@@ -532,7 +526,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param sql    a {@link java.lang.String} object.
      * @param params a {@link java.lang.Object} object.
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     public int count(String sql, Object... params) {
         Object o = this.getDbHelper().executeScalar(sql, params);
@@ -545,7 +538,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param where  a {@link java.lang.String} object.
      * @param params a {@link java.lang.Object} object.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean exists(String where, Object... params) {
         Object o = this.getDbHelper().executeScalar("select 1 from " + getTableName() + " " + where, params);
@@ -558,7 +550,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param where  a {@link java.lang.String} object.
      * @param params a {@link java.lang.Object} object.
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     @Override
     public int countWhere(String where, Object... params) {
@@ -575,7 +566,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param params      参数对象数组，因无参数类型判断，不建议用空值
      * @param cn          用于事务处理的数据库连接
      * @return 更新记录数
-     * @throws java.sql.SQLException 数据库执行出错
      */
     public int update(String[] fieldNames, String whereClause, Object[] params, Connection cn) {
         String query = getUpdateSql(fieldNames, whereClause);
@@ -593,7 +583,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param whereClause a {@link java.lang.String} object.
      * @param params      an array of {@link java.lang.Object} objects.
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     public int update(String[] fieldNames, String whereClause, Object[] params) {
         return update(fieldNames, whereClause, params, null);
@@ -636,7 +625,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param params   sql语句所需参数
      * @param receiver 要赋值的对象
      * @return receiver 承载查询结果的java bean
-     * @throws java.sql.SQLException 数据库执行出错
      */
     public @NotNull <K> K getSingleObject(String sql, Object[] params, @NotNull K receiver) {
 
@@ -654,7 +642,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param sql       a {@link java.lang.String} object.
      * @param params    an array of {@link java.lang.Object} objects.
      * @param receivers an array of {@link java.lang.Object} objects.
-     * @throws java.sql.SQLException if any.
      */
     public void selectToObjects(String sql, Object[] params, Object[] receivers) {
         List<Map<String, Object>> v = this.getDbHelper().executeQuery(sql, params);
@@ -731,7 +718,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param tableName a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
-     * @throws java.sql.SQLException if any.
      */
     protected String addAlias(String tableName) {
         // hack the
@@ -762,7 +748,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param sqlObjs an array of {@link SqlObject} objects.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean executeTransaction(SqlObject[] sqlObjs) {
 
@@ -783,9 +768,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
             return true;
         } catch (SQLException sqlException) {
             try {
-                if(cn!=null) {
-                    cn.rollback();
-                }
+                cn.rollback();
             } catch (Exception e) {
                 LOG.warn("rollback", e);
             }
@@ -855,7 +838,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
             }
 
             try {
-                // b.copyProperty(receiver, key.toLowerCase(), value);
                 if(dbtype==DERBY){
                     key = key.toLowerCase(Locale.ROOT);
                 }
@@ -886,7 +868,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param clz a {@link java.lang.Class} object.
      * @param <K> a K object.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     public @NotNull <K> List<K> select(String select, String whereClause, String orderBy, Object[] params, int rowStart,
                                        int rowEnd, Class<K> clz) {
@@ -924,7 +905,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param rowStart a int.
      * @param rowEnd a int.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     protected @NotNull
     List<Map<String, Object>> select(String sql, String whereClause, String orderBy,
@@ -936,21 +916,20 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
     /**
      * 查询返回通用类型
      *
-     * @param whereClause   条件，如果是mysql数据库，会针对*优化
-     * @param params        参数
-     * @param orderbyClause 排序条件
-     * @param beginNum      起始行
-     * @param endNum        截止行
+     * @param whereClause   条件，如果是mysql数据库，会针对*优化, 如 "where id>?"
+     * @param params        参数，如 new Object[]{ 1000 }
+     * @param orderByClause 排序条件, 如 "order by id desc"
+     * @param beginNum      起始行,如 0
+     * @param endNum        截止行，如 10000
      * @return 数据集
-     * @throws java.sql.SQLException 数据库异常
      */
     @Override
     public @NotNull
-    List<T> select(String whereClause, Object[] params, String orderbyClause, int beginNum, int endNum)
+    List<T> select(String whereClause, Object[] params, String orderByClause, int beginNum, int endNum)
              {
         String query = getSelectAllFromTable() + whereClause;
         if (this.getDbType() != BaseDao.DERBY) {
-            query += orderbyClause;
+            query += " "+orderByClause;
         }
         query = getPagingSql(query, beginNum, endNum);
         return getDbHelper().executeQuery(query, params, new RowMapperResultReader<>(this));
@@ -961,25 +940,24 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param whereClause   whereClause
      * @param params        params
-     * @param orderbyClause orderbyClause
+     * @param orderByClause orderbyClause
      * @param beginNum      bingNum
      * @param endNum        endNum
      * @return 结果集
-     * @throws java.sql.SQLException 数据库异常
      */
     protected @NotNull
-    List<T> select2step(String whereClause, Object[] params, String orderbyClause, int beginNum,
+    List<T> select2step(String whereClause, Object[] params, String orderByClause, int beginNum,
                         int endNum) {
         String query = "select " + getKeyName() + " from " + getTableName() + " " + whereClause;
         if (this.getDbType() != BaseDao.DERBY) {
-            query += orderbyClause;
+            query += orderByClause;
         }
         query = getPagingSql(query, beginNum, endNum);
         List<V> ids = getDbHelper().executeQuery(query, params, new RowMapperResultReader<>((rs, index) -> {
             Object o = rs.getObject(1);
             return (V) o;
         }));
-        return selectByKeys(ids, orderbyClause);
+        return selectByKeys(ids, orderByClause);
     }
 
     /**
@@ -994,7 +972,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param beginNum      起始行
      * @param endNum        截止行
      * @return 结果集
-     * @throws java.sql.SQLException 数据库执行出错
      */
     public @NotNull
     List<T> selectWithJoin(String fieldList, String whereClause, Object[] params, String orderByClause,
@@ -1018,7 +995,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param id 主键ID
      * @return 数据对象pojo
-     * @throws java.sql.SQLException 数据库出错
      */
     public T selectByKey(@NotNull V id) {
         String query = SELECT_FROM + getTableName() + WHERE + getKeyName() + "=?";
@@ -1057,7 +1033,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param ids           a {@link java.util.List} object.
      * @param orderbyClause a {@link java.lang.String} object.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     protected @NotNull
     List<T> selectByKeys(List<V> ids, String orderbyClause) {
@@ -1076,8 +1051,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param id 主键
      * @param cn 数据库连接
      * @return true成功删除
-     * @throws java.sql.SQLException 数据库出错
-     *                               Deletes from the database for table
+     *       Deletes from the database for table
      */
     public boolean deleteByKey(V id, Connection cn) {
         String query = getDeleteWhere() + getKeyName() + "=?";
@@ -1094,7 +1068,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param id 主键
      * @return true 成功删除
      * Deletes from the database for table
-     * @throws java.sql.SQLException 数据库出错
      */
     @Override
     public boolean deleteByKey(V id) {
@@ -1107,7 +1080,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param id an array of V[] objects.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean deleteByKeys(V[] id) {
         String query = getDeleteWhere() + makeInPlaceHolder(getKeyName(), id.length);
@@ -1132,7 +1104,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *           <p>
      *           Counts the number of entries for this table in the database.
      * @return 总数
-     * @throws java.sql.SQLException 数据库出错
      */
     public int countByKey(V id) {
         String query = SELECT_COUNT_FROM + getTableName() + WHERE + getKeyName() + "=?";
@@ -1145,7 +1116,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param id a V object.
      * @return a int.
-     * @throws java.sql.SQLException if any.
      */
     public int countLikeKey(V id) {
         return countByKey(id);
@@ -1202,7 +1172,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param info a T object.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     @Override
     public boolean insertAutoNewKey(T info) {
@@ -1248,7 +1217,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param where a {@link java.lang.String} object.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     public @NotNull
     List<T> selectAllWhere(String where) {
@@ -1262,7 +1230,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param where   a {@link java.lang.String} object.
      * @param objects a {@link java.lang.Object} object.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     public @NotNull
     List<T> selectAllWhere(String where, Object... objects) {
@@ -1278,7 +1245,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param stepMax a int.
      * @param params an array of {@link java.lang.Object} objects.
      * @return a {@link java.util.List} object.
-     * @throws java.sql.SQLException if any.
      */
     public @NotNull
     List<T> selectAllByStep(String where, String orderBy, int stepMax, Object[] params)
@@ -1296,7 +1262,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param stepMax a int.
      * @param handler a {@link ProcessHandler} object.
      * @param params  an array of {@link java.lang.Object} objects.
-     * @throws java.sql.SQLException if any.
      */
     public void processAllByStep(String where, String orderBy, int stepMax, ProcessHandler<T> handler,
                                  Object[] params) {
@@ -1313,7 +1278,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param params              sql参数, 为 where 和 order_by 里的？点位符对应参数
      * @param alwaysFromBeginning 当处理结果不影响获取条件时， alwaysFromBeginning 应为 false,
      *                            否则会死循环，当处理结果使得最终会不再返回结果集时，才能为 true
-     * @throws java.sql.SQLException 数据库出错
      */
     public void processAllByStep(String where, String orderBy, int stepMax, ProcessHandler<T> handler,
                                  Object[] params, boolean alwaysFromBeginning) {
@@ -1354,7 +1318,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param cn a {@link java.sql.Connection} object.
      * @return a {@link java.lang.Long} object.
-     * @throws java.sql.SQLException if any.
      */
     public Long getLastInsertId(Connection cn) {
         return Long.parseLong(this.getDbHelper().executeScalar(getLastInsertIdSql(), null, cn).toString());
@@ -1483,7 +1446,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param info pojo
      * @return true if success
-     * @throws java.sql.SQLException db error
      */
     @Override
     public boolean updateByKey(T info) {
@@ -1496,7 +1458,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param info a T object.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean updateByVersionAndKey(T info) {
         return updateByKey(info);
@@ -1508,7 +1469,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param info pojo
      * @param cn   db connection
      * @return true if success
-     * @throws java.sql.SQLException db error
      */
     public boolean updateByKey(T info, Connection cn) {
         beforeChange(info);
@@ -1520,7 +1480,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param info pojo
      * @return true if success
-     * @throws java.sql.SQLException db error
      */
     @Override
     public boolean insert(T info) {
@@ -1534,7 +1493,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param info pojo
      * @param cn   db connection
      * @return true if success
-     * @throws java.sql.SQLException db error
      */
     public boolean insert(T info, Connection cn) {
         beforeChange(info);
@@ -1546,7 +1504,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param infos an array of T[] objects.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean insertBatch(T[] infos) {
         beforeChange(infos);
@@ -1559,7 +1516,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @param infos an array of T[] objects.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean updateBatch(T[] infos) {
         beforeChange(infos);
@@ -1572,7 +1528,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param infos pojos array
      * @param cn    db connection
      * @return true if all success
-     * @throws java.sql.SQLException db error
      */
     public boolean insertBatch(T[] infos, Connection cn) {
         beforeChange(infos);
@@ -1590,7 +1545,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param infos an array of T[] objects.
      * @param cn    a {@link java.sql.Connection} object.
      * @return a boolean.
-     * @throws java.sql.SQLException if any.
      */
     public boolean updateBatch(T[] infos, Connection cn) {
         beforeChange(infos);
@@ -1647,7 +1601,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param groupBy       分组语句
      * @param params        参数
      * @return 返回统计的键值对列表
-     * @throws java.sql.SQLException 数据库异常
      * @deprecated use more generic  {@code <K> List<CountObject<K>> countGroupObject }
      */
     @Deprecated
@@ -1694,7 +1647,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * @param <K>           返回值类型
      * @param params        参数
      * @return 返回统计的键值对列表
-     * @throws java.sql.SQLException 数据库异常
      */
     public @NotNull <K> List<CountObject<K>> countGroupObject(String field, String groupFunction, String where, String having,
                                                               String[] groupBy, final Class<K> type, Object... params) {
@@ -1730,7 +1682,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      *
      * @return 最近的表记录
      */
-    public T getLast() throws SQLException {
+    public T getLast() {
         @SuppressWarnings("unchecked")
         V id = (V) this.ar().get("max(" + this.getKeyName() + ")");
         if (id == null) {
@@ -1743,7 +1695,6 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      * 获取主键最小的记录， 仅用于测试的目的
      *
      * @return 主键最小记录
-     * @throws java.sql.SQLException db error
      */
     public T getFirst() {
         @SuppressWarnings("unchecked")
