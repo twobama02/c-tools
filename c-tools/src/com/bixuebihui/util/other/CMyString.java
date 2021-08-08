@@ -344,28 +344,28 @@ public class CMyString {
         return byteToHexString(_bytes, ',');
     }
 
-    public static String byteToHexString(byte[] _bytes, char _delim) {
-        String sRet = "";
-        for (int i = 0; i < _bytes.length; i++) {
+    public static String byteToHexString(byte[] bytes, char delim) {
+        StringBuilder sRet = new StringBuilder();
+        for (int i = 0; i < bytes.length; i++) {
             if (i > 0) {
-                sRet = sRet + ",";
+                sRet.append(delim);
             }
-            sRet = sRet + Integer.toHexString(_bytes[i]);
+            sRet.append(Integer.toHexString(bytes[i]));
         }
 
-        return sRet;
+        return sRet.toString();
     }
 
-    public static String byteToString(byte[] _bytes, char _delim, int _radix) {
-        String sRet = "";
+    public static String byteToString(byte[] _bytes, char delim, int _radix) {
+        StringBuilder sRet = new StringBuilder();
         for (int i = 0; i < _bytes.length; i++) {
             if (i > 0) {
-                sRet = sRet + ",";
+                sRet.append(delim);
             }
-            sRet = sRet + Integer.toString(_bytes[i], _radix);
+            sRet.append( Integer.toString(_bytes[i], _radix));
         }
 
-        return sRet;
+        return sRet.toString();
     }
 
     public static String transDisplay(String _sContent) {

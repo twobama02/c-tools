@@ -586,7 +586,8 @@ public class TableGen implements DiffHandler {
 
             if (config.overWriteAll || !f.exists()) {
                 currentOutput = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(fileName), TableGenConfig.FILE_ENCODING));// new
+                        // new
+                        new OutputStreamWriter(new FileOutputStream(fileName), TableGenConfig.FILE_ENCODING));
 
                 writeBaseHeader();
 

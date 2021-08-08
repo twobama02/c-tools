@@ -4,7 +4,7 @@ package com.bixuebihui.tablegen.dbinfo;
  */
 public class IntegerIdentifierFactory
 {
-	private int _next;
+	private int next;
 
 	public IntegerIdentifierFactory()
 	{
@@ -14,11 +14,11 @@ public class IntegerIdentifierFactory
 	public IntegerIdentifierFactory(int initialValue)
 	{
 		super();
-		_next = initialValue;
+		next = initialValue;
 	}
 
 	public synchronized IntegerIdentifier createIdentifier()
 	{
-		return new IntegerIdentifier(_next++);
+		return new IntegerIdentifier(next++);
 	}
 }

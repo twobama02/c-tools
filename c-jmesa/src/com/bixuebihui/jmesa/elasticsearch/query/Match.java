@@ -3,6 +3,9 @@ package com.bixuebihui.jmesa.elasticsearch.query;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author xwx
+ */
 public class Match extends Query {
 
         static final String ZERO_TERM_NONE = "none";

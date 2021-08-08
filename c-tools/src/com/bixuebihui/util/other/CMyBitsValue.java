@@ -207,10 +207,10 @@ public class CMyBitsValue
         }
     }
 
-    public void or(long _value) {
-        BigInteger bigInt = BigInteger.valueOf(value);
-        bigInt = bigInt.or(BigInteger.valueOf(_value));
-        value = bigInt.longValue();
+    public void or(long value) {
+        BigInteger bigInt = BigInteger.valueOf(this.value);
+        bigInt = bigInt.or(BigInteger.valueOf(value));
+        this.value = bigInt.longValue();
     }
 
     public int getRealLength() {
@@ -222,13 +222,13 @@ public class CMyBitsValue
         return toString(getRealLength());
     }
 
-    public String toString(int _nLength) {
-        StringBuffer strBuffer = new StringBuffer(_nLength);
+    public String toString(int length) {
+        StringBuffer strBuffer = new StringBuffer(length);
         String sValue = Long.toBinaryString(value);
-        if (_nLength > getRealLength()) {
-            sValue = CMyString.expandStr(sValue, _nLength, '0', true);
+        if (length > getRealLength()) {
+            sValue = CMyString.expandStr(sValue, length, '0', true);
         }
-        for (int i = _nLength - 1; i > -1; i--) {
+        for (int i = length - 1; i > -1; i--) {
             strBuffer.append(sValue.charAt(i));
         }
 

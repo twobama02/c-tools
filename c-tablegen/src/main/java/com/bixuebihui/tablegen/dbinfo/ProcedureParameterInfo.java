@@ -9,60 +9,60 @@ import java.sql.SQLException;
 public class ProcedureParameterInfo extends DatabaseObjectInfo
 {
 	public static class  F{
-		public static final String procedure_cat="procedure_cat";
-		public static final String procedure_schem="procedure_schem";
-		public static final String procedure_name="procedure_name";
+		public static final String PROCEDURE_CAT ="procedure_cat";
+		public static final String PROCEDURE_SCHEM ="procedure_schem";
+		public static final String PROCEDURE_NAME ="procedure_name";
 
-		public static final String column_name="column_name";
-		public static final String column_type="column_type";
+		public static final String COLUMN_NAME ="column_name";
+		public static final String COLUMN_TYPE ="column_type";
 
-		public static final String data_type="data_type";
-		public static final String type_name="type_name";
+		public static final String DATA_TYPE ="data_type";
+		public static final String TYPE_NAME ="type_name";
 
-		public static final String precision="precision";
-		public static final String length="length";
-		public static final String scale="scale";
-		public static final String radix="radix";
+		public static final String PRECISION ="precision";
+		public static final String LENGTH ="length";
+		public static final String STRING ="scale";
+		public static final String RADIX ="radix";
 
-		public static final String nullable="nullable";
+		public static final String NULLABLE ="nullable";
 
-		public static final String remarks="remarks";
-		public static final String column_def="column_def";
-		public static final String sql_data_type="sql_data_type";
-		public static final String sql_datetime_sub="sql_datetime_sub";
-		public static final String char_octet_length="char_octet_length";
-		public static final String ordinal_position="ordinal_position";
-		public static final String is_nullable="is_nullable";
+		public static final String REMARKS ="remarks";
+		public static final String COLUMN_DEF ="column_def";
+		public static final String SQL_DATA_TYPE ="sql_data_type";
+		public static final String SQL_DATETIME_SUB ="sql_datetime_sub";
+		public static final String CHAR_OCTET_LENGTH ="char_octet_length";
+		public static final String ORDINAL_POSITION ="ordinal_position";
+		public static final String IS_NULLABLE ="is_nullable";
 
-		public static final String ss_type_catalog_name="ss_type_catalog_name";
-		public static final String ss_type_schema_name="ss_type_schema_name";
+		public static final String SS_TYPE_CATALOG_NAME ="ss_type_catalog_name";
+		public static final String SS_TYPE_SCHEMA_NAME ="ss_type_schema_name";
 
-		public static final String ss_udt_catalog_name="ss_udt_catalog_name";
-		public static final String ss_udt_schema_name="ss_udt_schema_name";
-		public static final String ss_udt_assembly_type_name="ss_udt_assembly_type_name";
+		public static final String SS_UDT_CATALOG_NAME ="ss_udt_catalog_name";
+		public static final String SS_UDT_SCHEMA_NAME ="ss_udt_schema_name";
+		public static final String SS_UDT_ASSEMBLY_TYPE_NAME ="ss_udt_assembly_type_name";
 
-		public static final String ss_xml_schemacollection_catalog_name="ss_xml_schemacollection_catalog_name";
-		public static final String ss_xml_schemacollection_schema_name="ss_xml_schemacollection_schema_name";
-		public static final String ss_xml_schemacollection_name="ss_xml_schemacollection_name";
+		public static final String SS_XML_SCHEMACOLLECTION_CATALOG_NAME ="ss_xml_schemacollection_catalog_name";
+		public static final String SS_XML_SCHEMACOLLECTION_SCHEMA_NAME ="ss_xml_schemacollection_schema_name";
+		public static final String SS_XML_SCHEMACOLLECTION_NAME ="ss_xml_schemacollection_name";
 
-		public static final String ss_data_type="ss_data_type";
+		public static final String SS_DATA_TYPE ="ss_data_type";
 	}
 
 	public static ProcedureParameterInfo mapRow (ResultSet r, int index) throws SQLException
 	{
 		return new ProcedureParameterInfo(DatabaseObjectType.DATATYPE,
-				r.getString(F.procedure_cat), r.getString(F.procedure_schem), r.getString(F.procedure_name),
+				r.getString(F.PROCEDURE_CAT), r.getString(F.PROCEDURE_SCHEM), r.getString(F.PROCEDURE_NAME),
 
-				r.getString(F.column_name), r.getInt(F.column_type), r.getInt(F.data_type), r.getString(F.type_name),
-				r.getLong(F.precision),r.getLong(F.length), r.getInt(F.scale), r.getInt(F.radix), r.getBoolean(F.nullable),
-				r.getString(F.remarks), r.getString(F.column_def), r.getString(F.sql_data_type), r.getString(F.sql_datetime_sub),
-				r.getString(F.char_octet_length), r.getString(F.ordinal_position), r.getString(F.is_nullable),
-				r.getString(F.ss_type_catalog_name), r.getString(F.ss_type_schema_name),
-				r.getString(F.ss_udt_catalog_name),
-				r.getString(F.ss_type_schema_name), r.getString(F.ss_udt_assembly_type_name),
-				r.getString(F.ss_xml_schemacollection_catalog_name),
-				r.getString(F.ss_xml_schemacollection_schema_name), r.getString(F.ss_xml_schemacollection_name),
-				r.getString(F.ss_data_type)
+				r.getString(F.COLUMN_NAME), r.getInt(F.COLUMN_TYPE), r.getInt(F.DATA_TYPE), r.getString(F.TYPE_NAME),
+				r.getLong(F.PRECISION),r.getLong(F.LENGTH), r.getInt(F.STRING), r.getInt(F.RADIX), r.getBoolean(F.NULLABLE),
+				r.getString(F.REMARKS), r.getString(F.COLUMN_DEF), r.getString(F.SQL_DATA_TYPE), r.getString(F.SQL_DATETIME_SUB),
+				r.getString(F.CHAR_OCTET_LENGTH), r.getString(F.ORDINAL_POSITION), r.getString(F.IS_NULLABLE),
+				r.getString(F.SS_TYPE_CATALOG_NAME), r.getString(F.SS_TYPE_SCHEMA_NAME),
+				r.getString(F.SS_UDT_CATALOG_NAME),
+				r.getString(F.SS_TYPE_SCHEMA_NAME), r.getString(F.SS_UDT_ASSEMBLY_TYPE_NAME),
+				r.getString(F.SS_XML_SCHEMACOLLECTION_CATALOG_NAME),
+				r.getString(F.SS_XML_SCHEMACOLLECTION_SCHEMA_NAME), r.getString(F.SS_XML_SCHEMACOLLECTION_NAME),
+				r.getString(F.SS_DATA_TYPE)
 
 				);	}
 	public String getProcedure_cat() {

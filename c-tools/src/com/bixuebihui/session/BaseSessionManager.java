@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 public abstract class BaseSessionManager implements ISessionManager {
 
-    protected Logger LOG = LoggerFactory.getLogger(BaseSessionManager.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(BaseSessionManager.class);
 
 
     abstract boolean insert(SimpleSession ss) throws CMyException;

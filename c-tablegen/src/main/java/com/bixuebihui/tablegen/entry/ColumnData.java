@@ -27,10 +27,10 @@ public class ColumnData implements Serializable {
      * 注释
      */
     String remarks;
-    //sysname in sql server is nvarchar(128) NOT NULL
+    /** sysname in sql server is nvarchar(128) NOT NULL */
     long cid;
     int type;
-    //数字类型的位数或字符类型的最大长度
+    /** 数字类型的位数或字符类型的最大长度 */
     long columns;
     long decimalDigits = 0;
     String name;

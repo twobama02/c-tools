@@ -2,6 +2,7 @@ package com.bixuebihui;
 
 /**
  * used to suppress throw SQLException everywhere
+ * @author xwx
  */
 public class DbException extends RuntimeException {
 

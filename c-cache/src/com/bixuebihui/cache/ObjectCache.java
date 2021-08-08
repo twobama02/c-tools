@@ -115,7 +115,8 @@ public class ObjectCache {
         Map mm = getMap(storekey, def.getMaxCapacity());
         mm.putAll(li);
         admin.putInCache(storekey, mm);
-        return mm; // LinkedHashMap
+        // LinkedHashMap
+        return mm;
     }
 
     @SuppressWarnings("unchecked")
@@ -139,7 +140,7 @@ public class ObjectCache {
 
     public Object selectById(String key, String id) throws
             SQLException {
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
         l.add(id);
         Map<String, ?> m = batchGet(key, l);
         if (m == null) {

@@ -5,6 +5,9 @@ import com.bixuebihui.jmesa.elasticsearch.query.DSL;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author xwx
+ */
 public class EsVersion {
 
 

@@ -16,9 +16,9 @@ import java.util.List;
  * @author xwx
  */
 public class SyncData {
-    public IDbHelper dhsrc = null;
+    public IDbHelper dhsrc;
 
-    public IDbHelper dhdes = null;
+    public IDbHelper dhdes;
 
     public SyncData(String srcDbHelperName, String desDbHelperName) {
         dhsrc = (IDbHelper) BeanFactory.createObjectById(srcDbHelperName);
@@ -91,7 +91,7 @@ public class SyncData {
                 p.setDate(i, new java.sql.Date(((java.sql.Timestamp) o)
                         .getTime()));
             } else {
-                throw new SQLException("Unknow type, to be added:" + (i) + "="
+                throw new SQLException("Unknown type, to be added:" + (i) + "="
                         + o.getClass());
             }
         }

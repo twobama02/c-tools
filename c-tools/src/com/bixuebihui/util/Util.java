@@ -327,9 +327,12 @@ public class Util {
      */
     public static boolean isInString(String src, String sub) {
         return src.equals(sub)
-                || src.startsWith(sub + ",")  // 头
-                || src.indexOf("," + sub + ",") > 0 // 中间
-                || src.endsWith("," + sub); // 尾
+                // 头
+                || src.startsWith(sub + ",")
+                // 中间
+                || src.indexOf("," + sub + ",") > 0
+                // 尾
+                || src.endsWith("," + sub);
 
     }
 

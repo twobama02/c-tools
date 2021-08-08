@@ -10,6 +10,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 
@@ -38,12 +39,17 @@ public class EncryptUtil {
             SecretKey secretKey = kgen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
             SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            byte[] byteContent = content.getBytes("utf-8");
-            cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(byteContent);
-            return result; // 加密
-        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+
+            // 创建密码器
+            Cipher cipher = Cipher.getInstance("AES");
+            byte[] byteContent = content.getBytes(StandardCharsets.UTF_8);
+
+            // 初始化
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+
+            // 加密
+            return cipher.doFinal(byteContent);
+        } catch (GeneralSecurityException e) {
             LOG.warn("", e);
         }
         return null;

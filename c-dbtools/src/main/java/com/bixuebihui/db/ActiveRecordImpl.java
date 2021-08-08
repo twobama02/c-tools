@@ -300,7 +300,7 @@ public class ActiveRecordImpl<T, V> implements ActiveRecord<T> {
 			sqlPocket = this.getSql();
 			String where = formWhereClause();
 			Object[] params = getParams().toArray();
-			if (where.length() < 10) {
+			if (where.length() < " where ".length()) {
 				return false;
 			}
 			String sql = "delete from " + operator.getTableName() + " " + where;

@@ -1,5 +1,8 @@
 package com.bixuebihui.tablegen.dbinfo;
 
+/**
+ * @author xwx
+ */
 public class DatabaseObjectInfo implements IDatabaseObjectInfo
 {
 	/** Property names for this bean. */

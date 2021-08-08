@@ -9,32 +9,32 @@ import java.io.StringWriter;
  * @author xwx
  */
 public class CMyException extends Exception {
-    public CMyException(String _sMsg, Throwable _rootCause) {
-        super(_sMsg);
+    public CMyException(String msg, Throwable rootCause) {
+        super(msg);
         errNo = 0;
-        rootCause = null;
-        rootCause = _rootCause;
+        this.rootCause = null;
+        this.rootCause = rootCause;
     }
 
-    public CMyException(int _errNo) {
-        errNo = 0;
+    public CMyException(int errNo) {
+        this.errNo = 0;
         rootCause = null;
-        errNo = _errNo;
+        this.errNo = errNo;
     }
 
-    public CMyException(int _errNo, String _sMsg) {
-        super(_sMsg);
-        errNo = 0;
+    public CMyException(int errNo, String msg) {
+        super(msg);
+        this.errNo = 0;
         rootCause = null;
-        errNo = _errNo;
+        this.errNo = errNo;
     }
 
-    public CMyException(int _errNo, String _sMsg, Throwable _rootCause) {
-        super(_sMsg);
-        errNo = 0;
-        rootCause = null;
-        errNo = _errNo;
-        rootCause = _rootCause;
+    public CMyException(int errNo, String msg, Throwable rootCause) {
+        super(msg);
+        this.errNo = 0;
+        this.rootCause = null;
+        this.errNo = errNo;
+        this.rootCause = rootCause;
     }
 
     public CMyException(String string) {
@@ -51,49 +51,64 @@ public class CMyException extends Exception {
 
     public String getErrNoMsg() {
         switch (errNo) {
-            case ERR_MYEXCEPTION: // '\001'
+            case ERR_MYEXCEPTION:
+                // '\001'
                 return "ERR_MYEXCEPTION";
 
-            case ERR_DATACONVERT: // '\002'
+            case ERR_DATACONVERT:
+                // '\002'
                 return "ERR_DATACONVERT";
 
-            case ERR_PARAM_INVALID: // '\n'
+            case ERR_PARAM_INVALID:
+                // '\n'
                 return "ERR_PARAM_INVALID";
 
-            case ERR_OBJ_NULL: // '\024'
+            case ERR_OBJ_NULL:
+                // '\024'
                 return "ERR_OBJ_NULL";
 
-            case ERR_NUMOP_FAIL: // '\036'
+            case ERR_NUMOP_FAIL:
+                // '\036'
                 return "ERR_NUMOP_FAIL";
 
-            case ERR_DBOP_FAIL: // '('
+            case ERR_DBOP_FAIL:
+                // '('
                 return "ERR_DBOP_FAIL";
 
-            case ERR_CONNECTION_GETFAIL: // ')'
+            case ERR_CONNECTION_GETFAIL:
+                // ')'
                 return "ERR_CONNECTION_GETFAIL";
 
-            case ERR_FILEOP_FAIL: // '2'
+            case ERR_FILEOP_FAIL:
+                // '2'
                 return "ERR_FILEOP_FAIL";
 
-            case ERR_FILEOP_OPEN: // '3'
+            case ERR_FILEOP_OPEN:
+                // '3'
                 return "ERR_FILEOP_OPEN";
 
-            case ERR_FILEOP_CLOSE: // '4'
+            case ERR_FILEOP_CLOSE:
+                // '4'
                 return "ERR_FILEOP_CLOSE";
 
-            case ERR_FILEOP_READ: // '5'
+            case ERR_FILEOP_READ:
+                // '5'
                 return "ERR_FILEOP_READ";
 
-            case ERR_FILEOP_WRITE: // '6'
+            case ERR_FILEOP_WRITE:
+                // '6'
                 return "ERR_FILEOP_WRITE";
 
-            case ERR_FILE_NOTFOUND: // '7'
+            case ERR_FILE_NOTFOUND:
+                // '7'
                 return "ERR_FILE_NOTFOUND";
 
-            case ERR_URL_MALFORMED: // 'n'
+            case ERR_URL_MALFORMED:
+                // 'n'
                 return "ERR_URL_MALFORMED";
 
-            case ERR_NET_OPENSTREAM: // 'o'
+            case ERR_NET_OPENSTREAM:
+                // 'o'
                 return "ERR_NET_OPENSTREAM";
             default:
                 return "ERR_UNKNOWN";

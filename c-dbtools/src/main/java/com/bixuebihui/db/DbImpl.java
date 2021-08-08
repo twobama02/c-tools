@@ -127,20 +127,19 @@ public class DbImpl<T, V> extends BaseDao<T, V> implements ActiveRecord<T>,
 	/** {@inheritDoc} */
 	@Override
 	public boolean insertAndReferences(T entity) {
-		return false; // To change body of implemented methods use File |
-		// Settings | File Templates.
+		return false;
+
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean insert(List<T> entities) {
-		return false; // To change body of implemented methods use File |
-		// Settings | File Templates.
+		return false;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean insertOrUpdate(T entity) throws SQLException {
+	public boolean insertOrUpdate(T entity) {
 		V key = getId(entity);
 		T obj =selectByKey(key);
 		if(obj==null) {
@@ -153,20 +152,18 @@ public class DbImpl<T, V> extends BaseDao<T, V> implements ActiveRecord<T>,
 	/** {@inheritDoc} */
 	@Override
 	public boolean insertOrUpdate(List<T> entity) {
-		//super.getDbHelper().executeNoQueryBatch(strSql, params)
-		return false; // To change body of implemented methods use File |
-		// Settings | File Templates.
+		return false;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public T findByKey(V id) throws SQLException {
+	public T findByKey(V id) {
 		return selectByKey(id);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<T> findAllByKeys(V[] ids) throws SQLException {
+	public List<T> findAllByKeys(V[] ids) {
 		return selectByKeys(ids);
 	}
 

@@ -140,7 +140,7 @@ public class SqlHelper {
 		if(!acceptEmptyStringAsNullObjectInCondition){
 			return true;
 		}
-		if(v.equals("")){
+		if("".equals(v)){
 			return false;
 		}
 		return true;
@@ -433,6 +433,11 @@ public class SqlHelper {
 			this.value = value;
 		}
 
+		/**
+		 * extends input condition with current filter's condition
+		 * @param pkt SqlPocket to extend
+		 * @return result SqlPocket
+		 */
 		abstract public SqlPocket build(SqlPocket pkt) ;
 
 	}

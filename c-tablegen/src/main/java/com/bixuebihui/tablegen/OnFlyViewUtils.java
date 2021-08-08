@@ -25,7 +25,7 @@ public class OnFlyViewUtils {
         int colCols;
         int decimalDigits;
         boolean isNullable;
-        boolean isAuto_increment;
+        boolean isAutoIncrement;
         String remarks;
 
         try {
@@ -49,21 +49,23 @@ public class OnFlyViewUtils {
 
                 //Access driver have not a column named IS_AUTOINCREMENT
                 // 23
-                isAuto_increment = (dbtype != BaseDao.ACCESS) && rs.isAutoIncrement(i);
+                isAutoIncrement = (dbtype != BaseDao.ACCESS) && rs.isAutoIncrement(i);
 
-                decimalDigits = rs.getPrecision(i);//.getString("DECIMAL_DIGITS");
+                //.getString("DECIMAL_DIGITS");
+                decimalDigits = rs.getPrecision(i);
 
                 // REMARKS String => 描述列的注释（可为 null）
-                remarks = rs.getColumnLabel(i) ; //co.getString("REMARKS");
+                //co.getString("REMARKS");
+                remarks = rs.getColumnLabel(i) ;
 
                 //COLUMN_DEF String => 该列的默认值，当值在单引号内时应被解释为一个字符串（可为 null）
 
                 // column type (XOPEN values)
-                colType = rs.getColumnType(i);// .getInt(5);
+                colType = rs.getColumnType(i);
                 // size e.g. varchar(20)
-                colCols = rs.getColumnDisplaySize(i);//rs.getInt(7);
+                colCols = rs.getColumnDisplaySize(i);
                 cd = new ColumnData(colName, colType, colCols, isNullable,
-                        isAuto_increment, decimalDigits, null, remarks);
+                        isAutoIncrement, decimalDigits, null, remarks);
                 colData.add(cd);
             }
         } catch (SQLException e) {

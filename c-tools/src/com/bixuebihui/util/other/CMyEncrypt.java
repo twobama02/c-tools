@@ -88,7 +88,7 @@ public class CMyEncrypt {
 
     public static String RASEncrypt(String _sSrc) {
         Random aRand = new Random(System.currentTimeMillis());
-        String strEnc = "";
+        StringBuilder strEnc = new StringBuilder();
         String strSrc = _sSrc;
         String strTemp = "";
         if (_sSrc.length() <= 0) {
@@ -98,13 +98,13 @@ public class CMyEncrypt {
         for (int nCount = strSrc.length(); nIndex < nCount; nIndex++) {
             strTemp = strSrc.substring(nIndex, nIndex + 1);
             int nChar = Integer.parseInt(strTemp, 36);
-            strEnc = strEnc + (long) (Mult(nChar, ulE, ulN) + dDiff);
-            strEnc = strEnc + "-";
+            strEnc.append((long) (Mult(nChar, ulE, ulN) + dDiff));
+            strEnc.append("-");
         }
 
         strTemp = String.valueOf(aRand.nextLong());
-        strEnc = strEnc + strTemp.substring(1, 8);
-        return strEnc.toUpperCase();
+        strEnc.append(strTemp, 1, 8);
+        return strEnc.toString().toUpperCase();
     }
 
     static final byte[] PADDING = {

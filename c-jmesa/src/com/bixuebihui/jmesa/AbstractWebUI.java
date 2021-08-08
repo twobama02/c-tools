@@ -42,6 +42,8 @@ public abstract class AbstractWebUI<T, V> implements WorksheetSaver {
     public static final String VAR_NAME = "row";
     private static final String TABLE_I18N = "tables";
     public static final String CHECK_BOX_ID = "chkbox";
+    public static final String SAVE_WORKSHEET_ACTION = "save_worksheet";
+    public static final String ADD_WORKSHEET_ROW_ACTION = "add_worksheet_row";
     protected static ConvertUtilsBean converter = new ConvertUtilsBean();
     protected static Logger LOG = LoggerFactory.getLogger(BasicWebUI.class);
     /**
@@ -169,6 +171,11 @@ public abstract class AbstractWebUI<T, V> implements WorksheetSaver {
         this.service = service;
     }
 
+    /**
+     * 返回选中记录的主键id
+     * @param request  HttpServletRequest
+     * @return id数组
+     */
     protected abstract V[] getKeys(HttpServletRequest request);
 
     protected String render(HttpServletRequest request,
@@ -279,6 +286,10 @@ public abstract class AbstractWebUI<T, V> implements WorksheetSaver {
         this.tableCaption = tableCaption;
     }
 
+    /**
+     * 返回主键键名
+     * @return  键名
+     */
     protected abstract String getUniquePropertyName();
 
     /**
@@ -325,11 +336,11 @@ public abstract class AbstractWebUI<T, V> implements WorksheetSaver {
     protected void performAction(String action, TableModel tableModel, V[] keys)
             throws SQLException {
 
-        if ("save_worksheet".equals(action)) {
+        if (SAVE_WORKSHEET_ACTION.equals(action)) {
             tableModel.saveWorksheet(this);
         } else if (CustomToolbar.EDIT.equals(action)) {
 
-        } else if ("add_worksheet_row".equals(action)
+        } else if (ADD_WORKSHEET_ROW_ACTION.equals(action)
                 || CustomToolbar.INSERT.equals(action)) {
             service.insertDummy();
         } else if (CustomToolbar.DELETE.equals(action)) {

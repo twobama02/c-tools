@@ -43,36 +43,36 @@ public class CMyEmail {
         iMailFormat = 1;
     }
 
-    public void setSMTPServer(String _sSmtpServer) {
-        sSmtpServer = _sSmtpServer;
+    public void setSMTPServer(String smtpServer) {
+        sSmtpServer = smtpServer;
     }
 
-    public void setFrom(String _sFrom) {
-        sFrom = _sFrom;
+    public void setFrom(String from) {
+        sFrom = from;
     }
 
-    public void setReplyTo(String _sReplyTo) {
-        sReplyTo = _sReplyTo;
+    public void setReplyTo(String replyTo) {
+        sReplyTo = replyTo;
     }
 
-    public void setTo(String _sTo) {
-        sTo = _sTo;
+    public void setTo(String to) {
+        sTo = to;
     }
 
-    public void setCc(String _sCc) {
-        sCc = _sCc;
+    public void setCc(String cc) {
+        sCc = cc;
     }
 
-    public void setBcc(String _sBcc) {
-        sBcc = _sBcc;
+    public void setBcc(String bcc) {
+        sBcc = bcc;
     }
 
-    public void setSubject(String _sSubject) {
-        sSubject = _sSubject;
+    public void setSubject(String subject) {
+        sSubject = subject;
     }
 
-    public void setBody(String _sBody) {
-        sBody = _sBody;
+    public void setBody(String body) {
+        sBody = body;
     }
 
     static {
@@ -126,10 +126,10 @@ public class CMyEmail {
         return sLogs;
     }
 
-    public void authSMTPServer(String _sUsername, String _sPassword) {
-        if (_sUsername.length() > 0 && _sPassword.length() > 0) {
-            sUsername = _sUsername;
-            sPassword = _sPassword;
+    public void authSMTPServer(String username, String password) {
+        if (username.length() > 0 && password.length() > 0) {
+            sUsername = username;
+            sPassword = password;
         }
     }
 
@@ -154,7 +154,7 @@ public class CMyEmail {
             out.flush();
             sLogs = sLogs + sRequest + "\r\n";
         } catch (IOException e) {
-            throw new CMyException(0, "\u4ECE\u90AE\u4EF6\u670D\u52A1\u5668\u8BFB\u5199\u6570\u636E\u65F6\u53D1\u751F\u9519\u8BEF", e);
+            throw new CMyException(0, "从邮件服务器读写数据时发生错误", e);
         }
     }
 
@@ -195,7 +195,7 @@ public class CMyEmail {
             if (attachFile.exists()) {
                 sAttachFilename = attachFile.getPath();
             } else {
-                throw new CMyException(0, "\u9644\u4EF6\u6587\u4EF6\u4E0D\u5B58\u5728");
+                throw new CMyException(0, "附件文件不存在");
             }
         }
     }
@@ -282,7 +282,7 @@ public class CMyEmail {
                             dis.readFully(buf);
                             sendBuffer(out, new String(encodeBase64(buf)));
                         } catch (IOException e) {
-                            throw new CMyException(0, "\u8BFB\u53D6\u9644\u4EF6\u6587\u4EF6\u65F6\u53D1\u751F\u9519\u8BEF", e);
+                            throw new CMyException(0, "读取附件文件时发生错误", e);
                         }
                         sendBuffer(out, "");
                         sendBuffer(out, "------CYC_Email_Maker--");
@@ -335,7 +335,7 @@ public class CMyEmail {
                 sendBuffer(in, out, "QUIT");
             bStatus = true;
         } catch (Exception e) {
-            throw new CMyException(0, "\u53D1\u9001\u90AE\u4EF6\u65F6\u53D1\u751F\u9519\u8BEF", e);
+            throw new CMyException(0, "发送邮件时发生错误", e);
         }
         return bStatus;
     }

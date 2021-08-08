@@ -891,7 +891,7 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
     public @NotNull <K> List<K> select(String select, String whereClause, String orderBy, Object[] params, int rowStart,
                                        int rowEnd, Class<K> clz) {
 
-        String selectSql = select + " " + whereClause + " " + orderBy; //(this.getDbType() == BaseDao.DERBY ? "" : orderBy);
+        String selectSql = select + " " + whereClause + " " + orderBy;
 
         List<Map<String, Object>> v = getDbHelper().executeQuery(this.getPagingSql(selectSql, rowStart, rowEnd),
                 params);

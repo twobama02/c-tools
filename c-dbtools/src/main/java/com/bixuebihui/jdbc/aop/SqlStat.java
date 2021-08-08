@@ -9,7 +9,8 @@ package com.bixuebihui.jdbc.aop;
 public class SqlStat {
     private long count;
     private double totalTime;
-    static final double SLOW_QUERY = 0.1;//0.1s
+    //0.1s
+    static final double SLOW_QUERY = 0.1;
 
     /**
      * <p>Setter for the field <code>count</code>.</p>

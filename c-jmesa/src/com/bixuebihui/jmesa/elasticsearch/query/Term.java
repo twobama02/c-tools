@@ -5,6 +5,9 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+/**
+ * @author xwx
+ */
 public class Term extends Query {
 
         /**

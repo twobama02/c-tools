@@ -19,7 +19,9 @@ public class UploadFile {
     static Logger mLog = Logger.getLogger(UploadFile.class.getName());
 
     Map<String, String> whiteList;
-    long maxSize = 10 * 1024 * 1024L; // 10M
+
+    /** 10M */
+    long maxSize = 10 * 1024 * 1024L;
 
     public UploadFile(Map<String, String> extentionFilter, long maxSize) {
         this.whiteList = extentionFilter;
@@ -27,7 +29,7 @@ public class UploadFile {
     }
 
     public UploadFile() {
-        whiteList = new Hashtable<String, String>();
+        whiteList = new Hashtable<>();
         String[] extArray = {".gif", ".jpg", ".png", ".tif", ".doc", ".zip",
                 ".xls", ".txt", ".docx", ".dwg", ".xlsx", ".dxf", ".ppt",
                 ".rm", ".wma", ".mp3", ".rar", ".pdf"};

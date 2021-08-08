@@ -10,37 +10,32 @@ public class AbstractWebUITest {
 
     @Test
     public void testConvert() {
-        AbstractWebUI<?, ?> ui = new AbstractWebUI<Object, Object>() {
+        AbstractWebUI<?, ?> ui = new AbstractWebUI<>() {
 
             @Override
             protected String getUniquePropertyName() {
-                // TODO Auto-generated method stub
                 return null;
             }
 
             @Override
             protected String render(HttpServletRequest request,
                                     HttpServletResponse response) {
-                // TODO Auto-generated method stub
                 return null;
             }
 
             @Override
             protected void validateColumn(WorksheetColumn worksheetColumn,
                                           String changedValue) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             protected String[] getColNames() {
-                // TODO Auto-generated method stub
                 return null;
             }
 
             @Override
             protected Object[] getKeys(HttpServletRequest request) {
-                // TODO Auto-generated method stub
                 return null;
             }
         };

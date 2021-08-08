@@ -35,7 +35,7 @@ public class BaseExcelInput {
         if (cell == null) {
             return "";
         }
-        CellType celltype = cell.getCellTypeEnum();
+        CellType celltype = cell.getCellType();
 
         if (celltype == CellType.STRING) {
             return cell.getRichStringCellValue().getString().trim();
@@ -49,7 +49,6 @@ public class BaseExcelInput {
         } else if (celltype == CellType.BLANK) {
             return "";
         } else if(celltype == CellType.FORMULA) {
-            cell.setCellType(CellType.STRING);
             return cell.getStringCellValue();
         }else{
             return "" + cell.getNumericCellValue();
@@ -70,7 +69,7 @@ public class BaseExcelInput {
         if (cell == null) {
             return 0;
         }
-        CellType cellType = cell.getCellTypeEnum();
+        CellType cellType = cell.getCellType();
 
         if (cellType == CellType.STRING) {
             String tmp = cell.getRichStringCellValue().getString().trim();
@@ -99,7 +98,7 @@ public class BaseExcelInput {
      * 时间转换String转换成Date 可自动判断年月日分隔型;‘-’分隔型;数字型；
      */
     protected static java.util.Date getDateCellContent(Row row, int i) {
-        CellType cellType = row.getCell(i).getCellTypeEnum();
+        CellType cellType = row.getCell(i).getCellType();
 
         if (cellType == CellType.NUMERIC) {
             return getDateCell(row, i);
@@ -121,7 +120,7 @@ public class BaseExcelInput {
         String changedCell = "";
 
 
-        CellType celltype = row.getCell(i).getCellTypeEnum();
+        CellType celltype = row.getCell(i).getCellType();
 
         if (celltype == CellType.STRING) {
             changedCell = row.getCell(i).getRichStringCellValue().getString();
@@ -145,7 +144,7 @@ public class BaseExcelInput {
         String postTime;
 
 
-        CellType cellType = row.getCell(i).getCellTypeEnum();
+        CellType cellType = row.getCell(i).getCellType();
 
         if (cellType == CellType.STRING) {
             changedCell = row.getCell(i).getRichStringCellValue().getString();
@@ -311,6 +310,6 @@ public class BaseExcelInput {
             return src;
         }
         //去掉中文中的空格，主要是两字人名时要用去中间对齐用的空格。
-        return src.replaceAll("\\ ", "").replaceAll("\u00A0", "");
+        return src.replaceAll(" ", "").replaceAll("\u00A0", "");
     }
 }

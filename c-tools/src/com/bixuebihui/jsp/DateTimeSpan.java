@@ -123,9 +123,9 @@ public class DateTimeSpan implements ISqlConditionType {
      */
     @Override
     public String getConditionSql(String sqlFieldName, int databaseType) {
-        switch (databaseType) {
-        //TODO ...
-        }
+//        switch (databaseType) {
+//        //TODO ...
+//        }
         return "";
 
     }

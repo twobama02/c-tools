@@ -415,7 +415,7 @@ public class SqlFilter {
 	}
 
 	public enum Operator{
-		AND, OR
+		/**and*/AND, /**or*/OR
 	}
 	/**
 	 * Used for filters

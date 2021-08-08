@@ -17,7 +17,7 @@ public class PagePublisher implements Job {
     private long LastWriteDate = 0;
     private String mainpageUrl;
     private String mainpagePath;
-    private String syscode = null;//
+    private String syscode = null;
 
     public long getLastexecuteDate() {
         return LastWriteDate;

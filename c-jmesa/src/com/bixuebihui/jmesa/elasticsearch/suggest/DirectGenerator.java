@@ -6,7 +6,8 @@ import com.bixuebihui.jmesa.elasticsearch.query.Params;
      * Class DirectGenerator.
      * <p>
      * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-phrase.html#_direct_generators
-     */
+ * @author xwx
+ */
    public class DirectGenerator extends Params {
         static final String SUGGEST_MODE_MISSING = "missing";
         static final String SUGGEST_MODE_POPULAR = "popular";
