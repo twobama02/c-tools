@@ -98,6 +98,8 @@ public interface IDbHelper {
      * @return a {@link java.util.List} object.
      */
     @NotNull <T> List<T> executeQuery(String sql, Object[] params, RowMapperResultReader<T> handle);
+    @NotNull <T> List<T> executeQuery(String sql, Object[] params, RowMapper<T> handle);
+
 
     /**
      * <p>executeNoQuery.</p>
