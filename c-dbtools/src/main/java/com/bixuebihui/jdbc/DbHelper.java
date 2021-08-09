@@ -998,7 +998,7 @@ public class DbHelper implements IDbHelper {
     public @NotNull <T> List<T> executeQuery(String sql, Object[] params,
                                              @NotNull RowMapper<T> handle) {
         return executeQuery( sql, params,
-                new  RowMapperResultReader<T> (handle));
+                new RowMapperResultReader<>(handle));
     }
 
 }

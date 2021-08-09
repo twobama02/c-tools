@@ -23,6 +23,14 @@ public class SqlFileExecutor {
 	private boolean batchExecute = false;
 	private String defaultEncoding="UTF-8";
 
+	public SqlFileExecutor setAllowMultiQueries(boolean allowMultiQueries) {
+		this.allowMultiQueries = allowMultiQueries;
+		return this;
+	}
+
+	private boolean allowMultiQueries = true;
+
+
 	/**
 	 * 读取 SQL 文件，获取 SQL 语句
 	 *
@@ -46,7 +54,7 @@ public class SqlFileExecutor {
 	 * @return List<sql> 返回所有 SQL 语句的 List
 	 */
 	private List<String> loadSqlFromStream(InputStream sqlFile) throws IOException {
-		List<String> sqlList = new ArrayList<String>();
+		List<String> sqlList = new ArrayList<>();
 
 		StringBuilder buffer = new StringBuilder();
 		try (
@@ -60,12 +68,17 @@ public class SqlFileExecutor {
 			}
 
 			// Windows 下换行是 \r\n, Linux 下是 \n
-			String[] sqlArr = buffer.toString()
-					.split("(;\\s*\\r\\n)|(;\\s*\\n)");
-			for (int i = 0; i < sqlArr.length; i++) {
-				String sql = sqlArr[i].replaceAll("--.*", "").trim();
-				if (!"".equals(sql)) {
-					sqlList.add(sql);
+			if(allowMultiQueries){
+				sqlList.add(buffer.toString());
+			}else {
+				// without a collect sql grammar parser the below replace maybe buggy. use it only by fortune!
+				String[] sqlArr = buffer.toString()
+						.split("(;\\s*\\r\\n)|(;\\s*\\n)");
+				for (int i = 0; i < sqlArr.length; i++) {
+					String sql = sqlArr[i].replaceAll("--\\s+.*", "").trim();
+					if (!"".equals(sql)) {
+						sqlList.add(sql);
+					}
 				}
 			}
 			return sqlList;
