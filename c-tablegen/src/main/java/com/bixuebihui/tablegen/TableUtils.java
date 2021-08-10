@@ -692,7 +692,7 @@ public class TableUtils {
         if (config.useCustomMetaTable) {
             DictionaryItem item = null;
             try {
-                item = DictionaryCache.byId(TableGenConfig.METACOLUMN_DICT + DictionaryCache.CONDITION_SEPARATOR
+                item = DictionaryCache.byId(TableGenConfig.META_COLUMN_DICT + DictionaryCache.CONDITION_SEPARATOR
                         + getTableIdByName(config, tableName) + DictionaryCache.KEY_SEPARATOR + columnName.toUpperCase());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -721,7 +721,7 @@ public class TableUtils {
             DictionaryItem item = null;
             try {
                 item = DictionaryCache.byValue(
-                        TableGenConfig.TABLENAME_DICT + DictionaryCache.KEY_SEPARATOR + tableName.toUpperCase());
+                        TableGenConfig.TABLE_NAME_DICT + DictionaryCache.KEY_SEPARATOR + tableName.toUpperCase());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -734,7 +734,7 @@ public class TableUtils {
 
     public static String getColumnAnnotation(ProjectConfig config, TableSetInfo setInfo, String tableName, ColumnData cd) {
         StringBuilder sb = new StringBuilder();
-        if (config.use_annotation) {
+        if (config.useAnnotation) {
 
             if (setInfo.getTableDataExt()  != null && setInfo.getTableDataExt().get(tableName) != null) {
                 Map<String, T_metacolumn> cols = setInfo.getTableDataExt().get(tableName).getColumns();
@@ -758,7 +758,7 @@ public class TableUtils {
                 }
             }
 
-            if(config.use_swagger && StringUtils.isNotBlank(cd.getComment())){
+            if(config.useSwagger && StringUtils.isNotBlank(cd.getComment())){
                 sb.append("@Schema(title = \"").append(cd.getComment()).append("\")");
             }
         }
@@ -767,7 +767,7 @@ public class TableUtils {
     }
 
     private static boolean isNeedNotNullAnnotation(ProjectConfig config, ColumnData cd) {
-        return !cd.isNullable() && cd.getDefaultValue() == null && (!config.use_autoincrement || !cd.isAutoIncrement());
+        return !cd.isNullable() && cd.getDefaultValue() == null && (!config.useAutoincrement || !cd.isAutoIncrement());
     }
 
 

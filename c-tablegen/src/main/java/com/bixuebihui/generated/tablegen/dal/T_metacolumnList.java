@@ -12,6 +12,7 @@ package com.bixuebihui.generated.tablegen.dal;
 import com.bixuebihui.generated.tablegen.BaseList;
 import com.bixuebihui.generated.tablegen.pojo.T_metacolumn;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +23,9 @@ public class T_metacolumnList  extends BaseList<T_metacolumn,Long>
 /**
   * Don't direct use the T_metacolumnListList, use T_metacolumnListManager instead.
   */
-protected T_metacolumnList()
+protected T_metacolumnList(DataSource ds)
 {
+    super(ds);
 }
 
 /**

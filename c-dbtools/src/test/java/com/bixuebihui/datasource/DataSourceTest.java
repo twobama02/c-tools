@@ -111,14 +111,12 @@ public class DataSourceTest extends TestCase {
 	}
 
 	private static void  createT_LOG(DataSource ds){
-		Connection cn;
-		Statement stmt;
-		try {
-			cn = ds.getConnection();
-			stmt = cn.createStatement();
-			stmt.execute("CREATE TABLE IF NOT EXISTS T_LOG(lid INT PRIMARY KEY, content VARCHAR(255)); ");
-			stmt.close();
-			cn.close();
+
+		try (Connection cn = ds.getConnection(); Statement stmt = cn.createStatement()){
+
+			stmt.execute("CREATE TABLE T_LOG(lid INT PRIMARY KEY, content VARCHAR(255))");
+			stmt.execute("CREATE TABLE t_log(lid INT PRIMARY KEY, content VARCHAR(255))");
+
 		}catch (Exception e){
 			e.printStackTrace();
 		}

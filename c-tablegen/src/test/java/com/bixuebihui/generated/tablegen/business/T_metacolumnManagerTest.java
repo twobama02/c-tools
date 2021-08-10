@@ -9,38 +9,36 @@ package com.bixuebihui.generated.tablegen.business;
   * (c) www.goldjetty.com
   */
 
-import java.sql.*;
-import java.util.List;
-
+import com.bixuebihui.BeanFactory;
+import com.bixuebihui.generated.tablegen.pojo.T_metacolumn;
+import com.bixuebihui.jdbc.IDbHelper;
 import org.junit.Assert;
 import org.junit.Test;
-import com.bixuebihui.generated.tablegen.pojo.T_metacolumn;
+
+import java.util.List;
 
 public class T_metacolumnManagerTest {
-/**
-  * Select from the database for table "t_metacolumn"
- */
-@Test
-public void testSelect() throws SQLException
-{
-  T_metacolumnManager man = new T_metacolumnManager();
-    List<T_metacolumn> list = man.select("","", 0, 10);
-    for(T_metacolumn info: list){
-     System.out.println(info.toXml());
+  IDbHelper dbHelper = (IDbHelper) BeanFactory.createObjectById("dbHelper");
+  T_metacolumnManager man = new T_metacolumnManager(dbHelper.getDataSource());
+
+  /**
+   * Select from the database for table "t_metacolumn"
+   */
+  @Test
+  public void testSelect() {
+    List<T_metacolumn> list = man.select("", "", 0, 10);
+    for (T_metacolumn info : list) {
+      System.out.println(info.toXml());
     }
-}
+  }
 
-@Test
-public void testCount() throws SQLException
-{
-  T_metacolumnManager man = new T_metacolumnManager();
+  @Test
+  public void testCount() {
     Assert.assertTrue(man.count("") >= 0);
-}
+  }
 
-@Test
-public void testInsertdummy() throws SQLException
-{
-  T_metacolumnManager man = new T_metacolumnManager();
+  @Test
+  public void testInsertdummy() {
     Assert.assertTrue(man.insertDummy());
 }
 

@@ -1,7 +1,7 @@
-package com.bixuebihui.test.pojo;
+package com.bixuebihui.test.view.pojo;
 
 /*
- *  TestGen
+ *  MyTestView
  *
  * Notice! Automatically generated file!
  * Do not edit the pojo and dal packages,use `maven tablegen:gen`!
@@ -22,15 +22,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import javax.annotation.processing.Generated;
 
 @Generated("com.github.yujiaao:tablegen")
-@Schema(description ="测试表")
-public class TestGen  implements Serializable {
+@Schema(description =" select test_gen.*, degree from test_gen left join t_edu on test_gen.edu_id&#x3D;t_edu.id")
+public class MyTestView  implements Serializable {
 
 
     
     /**
     * id
     */
-    @Schema(title = "这里是id!")
+    
     protected Integer  id;
 
     
@@ -38,29 +38,35 @@ public class TestGen  implements Serializable {
     * name
     */
     @Size(max=100)
-@Schema(title = "这里是名称！")
     protected String  name;
 
     
     /**
     * age
     */
-    @Schema(title = "这里是年龄")
+    
     protected Short  age;
 
     
     /**
     * birth
     */
-    @Schema(title = "这里是日期！")
+    
     protected Timestamp  birth;
 
     
     /**
     * edu_id
     */
-    @Schema(title = "教育程度")
+    
     protected Integer  eduId;
+
+    
+    /**
+    * degree
+    */
+    @Size(max=100)
+    protected String  degree;
 
 
 
@@ -110,9 +116,18 @@ public class TestGen  implements Serializable {
       return this.eduId;
     }
 
+    public void setDegree(String degree)
+    {
+      this.degree = degree;
+    }
+    public String getDegree()
+    {
+      return this.degree;
+    }
+
 
     
-    public TestGen()
+    public MyTestView()
     {
      
             id=0;
@@ -124,6 +139,8 @@ public class TestGen  implements Serializable {
             birth=new Timestamp(System.currentTimeMillis());
              
             eduId=0;
+             
+            degree="";
             
     }
 
@@ -131,7 +148,7 @@ public class TestGen  implements Serializable {
     {
         StringBuilder s= new StringBuilder();
         String ln = System.getProperty("line.separator");
-        s.append("<test_gen ");
+        s.append("<my_test_view ");
 
         s.append(" id=\"").append(this.getId()).append("\"");
         
@@ -141,7 +158,8 @@ public class TestGen  implements Serializable {
         s.append(" birth=\"").append(this.getBirth()).append("\"");
         
         s.append(" eduId=\"").append(this.getEduId()).append("\"");
-        s.append(" />");
+        
+        s.append(" degree=\"").append(StringEscapeUtils.escapeXml11(this.getDegree())).append("\"");s.append(" />");
         s.append(ln);
         return s.toString();
     }

@@ -11,9 +11,18 @@ public class TableInfo {
    String name;
    String comment;
    List<ColumnData> fields;
+    boolean isView=false;
 
     public TableInfo(String name) {
         this.name = name;
+    }
+
+    public boolean isView() {
+        return isView;
+    }
+
+    public void setView(boolean view) {
+        isView = view;
     }
 
     @Override
@@ -22,6 +31,7 @@ public class TableInfo {
                 "name='" + name + '\'' +
                 ", comment='" + comment + '\'' +
                 ", fields=" + fields +
+                ", isView=" + isView +
                 '}';
     }
 

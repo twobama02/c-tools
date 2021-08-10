@@ -19,22 +19,22 @@ public class HtmlDocument {
         content = new ArrayList(INITIAL_ARRAY_SIZE);
     }
 
-    public HtmlDocument(HtmlElement _rootElement) {
+    public HtmlDocument(HtmlElement rootElement) {
         content = new ArrayList(INITIAL_ARRAY_SIZE);
-        setRootElement(_rootElement);
+        setRootElement(rootElement);
     }
 
     public List getContent() {
         return content;
     }
 
-    public HtmlDocument setContent(List _newContent)
+    public HtmlDocument setContent(List newContent)
             throws CMyException {
-        if (_newContent == null) {
+        if (newContent == null) {
             return this;
         }
         boolean bDidRoot = false;
-        Iterator itr = _newContent.iterator();
+        Iterator itr = newContent.iterator();
         content = new ArrayList(INITIAL_ARRAY_SIZE);
         while (itr.hasNext()) {
             Object obj = itr.next();
@@ -43,16 +43,16 @@ public class HtmlDocument {
                     setRootElement((HtmlElement) obj);
                     bDidRoot = true;
                 } else {
-                    throw new CMyException(1, "\u6587\u5F53\u4E2D\u53EA\u80FD\u5B58\u5728\u4E00\u4E2A\u6839\u5143\u7D20(HtmlDocument.setContent)");
+                    throw new CMyException(1, "文当中只能存在一个根元素(HtmlDocument.setContent)");
                 }
             } else if (obj instanceof HtmlComment) {
                 addContent((HtmlComment) obj);
             } else {
-                throw new CMyException(1, "\u65E0\u6548\u7684\u6587\u6863\u5185\u5BB9(HtmlDocument.setContent)");
+                throw new CMyException(1, "无效的文档内容(HtmlDocument.setContent)");
             }
         }
         if (!bDidRoot) {
-            throw new CMyException(1, "\u6587\u6863\u7F3A\u5C11\u6839\u5143\u7D20\uFF08HtmlDocument.setContent\uFF09");
+            throw new CMyException(1, "文档缺少根元素（HtmlDocument.setContent）");
         } else {
             return this;
         }
@@ -93,15 +93,15 @@ public class HtmlDocument {
         return this;
     }
 
-    public HtmlDocument addContent(HtmlComment _comment)
+    public HtmlDocument addContent(HtmlComment comment)
             throws CMyException {
-        if (_comment == null) {
+        if (comment == null) {
             return this;
         }
-        if (_comment.getParent() != null || _comment.getDocument() != null) {
-            throw new CMyException(1, "\u6DFB\u52A0\u7684\u5185\u5BB9\u5DF2\u7ECF\u5B58\u5728Parent\uFF08HtmlDocument.addContent\uFF09");
+        if (comment.getParent() != null || comment.getDocument() != null) {
+            throw new CMyException(1, "添加的内容已经存在Parent（HtmlDocument.addContent）");
         } else {
-            content.add(_comment);
+            content.add(comment);
             return this;
         }
     }
@@ -124,9 +124,9 @@ public class HtmlDocument {
         for (Iterator itr = content.iterator(); itr.hasNext(); textContent.append("\n")) {
             Object obj = itr.next();
             if (obj instanceof HtmlComment) {
-                textContent.append(obj.toString());
+                textContent.append(obj);
             } else if (obj instanceof HtmlElement) {
-                textContent.append(obj.toString());
+                textContent.append(obj);
             }
         }
 

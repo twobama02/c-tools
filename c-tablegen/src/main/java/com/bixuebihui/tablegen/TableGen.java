@@ -781,7 +781,7 @@ public class TableGen implements DiffHandler {
                 fieldsAll.append(",");
             }
 
-            if (!(config.use_autoincrement && cd.isAutoIncrement())) {
+            if (!(config.useAutoincrement && cd.isAutoIncrement())) {
                 if (cd.getName().equalsIgnoreCase(config.versionColName)) {
                     update.append(cd.getName()).append(" = ").append(cd.getName()).append("+1");
                 } else {
@@ -820,9 +820,9 @@ public class TableGen implements DiffHandler {
     private void writeObjs(String tableName, List<String> params, List<ColumnData> columnData) throws IOException {
 
         out("@Override\nprotected Object[] getInsertObjs(" + this.getPojoClassName(tableName) + " info){\n    return new Object[]{"
-                + makeInsertObjects(config.use_autoincrement, columnData, config.versionColName) + "};\n}\n");
+                + makeInsertObjects(config.useAutoincrement, columnData, config.versionColName) + "};\n}\n");
         out("@Override\nprotected Object[] getUpdateObjs(" + this.getPojoClassName(tableName) + " info){\n    return new Object[]{"
-                + makeUpdateObjects(params, columnData, config.use_autoincrement, config.versionColName) + "};\n}\n");
+                + makeUpdateObjects(params, columnData, config.useAutoincrement, config.versionColName) + "};\n}\n");
 
     }
 
@@ -858,7 +858,7 @@ public class TableGen implements DiffHandler {
                 }
                 generateSpringXml();
 
-                if (config.generate_procedures) {
+                if (config.generateProcedures) {
                     generateStoreProcedures(meta);
                 }
             } else {
@@ -1244,10 +1244,10 @@ public class TableGen implements DiffHandler {
             out("import java.io.Serializable;");
         }
 
-        if ("pojo".equals(subPackage) && config.use_annotation) {
+        if ("pojo".equals(subPackage) && config.useAnnotation) {
             out("import javax.validation.constraints.*;");
             out("import org.apache.commons.text.StringEscapeUtils;");
-            if (config.use_swagger) {
+            if (config.useSwagger) {
                 out("import io.swagger.annotations.ApiModel;");
                 out("import io.swagger.annotations.ApiModelProperty;");
                 out("\n");
@@ -1299,7 +1299,7 @@ public class TableGen implements DiffHandler {
         }
 
         extClass = extClass == null ? "" : extClass;
-        if (config.use_annotation && BUSINESS.equals(subPackage) && !extClass.contains("TestCase")) {
+        if (config.useAnnotation && BUSINESS.equals(subPackage) && !extClass.contains("TestCase")) {
             out("import org.springframework.stereotype.Repository;");
             out("");
             out("@Repository");

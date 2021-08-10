@@ -123,7 +123,6 @@ public class TableGenTest {
 	@Test
 	public void testInitTableDateExt() throws SQLException, InstantiationException, IllegalAccessException, IOException {
 		TableGen tg = new TableGen();
-		// this.getClass().getResource("tablegen.properties").getFile()
 		System.out.println(this.getClass().getResource("/tablegen.properties")
 				.getFile());
 		try {
@@ -133,8 +132,7 @@ public class TableGenTest {
 			DatabaseMetaData meta = tg.connect(helper.getConnection());
 
 			tg.setInfo.getTableData(tg.getConfig(), helper, meta);
-			T_metatableManager manager = new T_metatableManager();
-			manager.setDbHelper(helper);
+			T_metatableManager manager = new T_metatableManager(helper.getDataSource());
 			boolean res  = tg.setInfo.initTableData(tg.setInfo.getTableInfos(), manager);
 			Assert.assertTrue(res);
 		}catch(BatchUpdateException e){

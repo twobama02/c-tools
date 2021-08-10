@@ -181,8 +181,8 @@ public class DalGenerator extends BaseGenerator {
         v.put("hasVersionCol", containsVersion(cols
                 , config.getVersionColName()));
 
-        v.put("insertObjects", makeInsertObjects(config.isUse_autoincrement(), cols, config.getVersionColName()));
-        v.put("updateObjects", makeUpdateObjects(keys, cols, config.isUse_autoincrement(), config.getVersionColName()));
+        v.put("insertObjects", makeInsertObjects(config.isUseAutoincrement(), cols, config.getVersionColName()));
+        v.put("updateObjects", makeUpdateObjects(keys, cols, config.isUseAutoincrement(), config.getVersionColName()));
 
         v.put("firstKeyType", this.getFirstKeyType(tableName));
         v.put("firstKeyName", this.getFirstKeyName(tableName));

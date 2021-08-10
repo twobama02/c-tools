@@ -21,7 +21,7 @@ public class InstallMetaTable {
 		boolean res = false;
 		try {
 			conn = dbHelper.getConnection();
-			T_metatableManager metatableManager = new T_metatableManager();
+			T_metatableManager metatableManager = new T_metatableManager(dbHelper.getDataSource());
 			if (!JDBCUtils.tableOrViewExists(null, null, metatableManager.getTableName(),
 					conn)) {
 				SqlFileExecutor ex = new SqlFileExecutor();

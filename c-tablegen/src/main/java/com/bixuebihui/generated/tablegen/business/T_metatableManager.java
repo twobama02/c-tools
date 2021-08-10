@@ -15,6 +15,7 @@ import com.bixuebihui.generated.tablegen.pojo.T_metatable;
 import com.bixuebihui.jdbc.IDbHelper;
 import org.apache.commons.lang.StringUtils;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,15 @@ import java.util.List;
  * @author xwx
  */
 public class T_metatableManager extends T_metatableList {
+	/**
+	 * Don't direct use the T_metatableListList, use T_metatableListManager instead.
+	 *
+	 * @param ds
+	 */
+	public T_metatableManager(DataSource ds) {
+		super(ds);
+	}
+
 	@SuppressWarnings("unchecked")
 	public Collection<T_metatable> getTableDataExt(List<String> tableNames)
 			throws SQLException {

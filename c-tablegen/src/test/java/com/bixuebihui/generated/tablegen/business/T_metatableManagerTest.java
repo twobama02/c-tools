@@ -9,38 +9,36 @@ package com.bixuebihui.generated.tablegen.business;
   * (c) www.goldjetty.com
   */
 
-import java.sql.*;
-import java.util.List;
-
+import com.bixuebihui.BeanFactory;
+import com.bixuebihui.generated.tablegen.pojo.T_metatable;
+import com.bixuebihui.jdbc.IDbHelper;
 import org.junit.Assert;
 import org.junit.Test;
-import com.bixuebihui.generated.tablegen.pojo.T_metatable;
+
+import java.util.List;
 
 public class T_metatableManagerTest {
-/**
-  * Select from the database for table "t_metatable"
- */
-@Test
-public void testSelect() throws SQLException
-{
-  T_metatableManager man = new T_metatableManager();
-    List<T_metatable> list = man.select("","", 0, 10);
-    for(T_metatable info: list){
-     System.out.println(info.toXml());
+  IDbHelper dbHelper = (IDbHelper) BeanFactory.createObjectById("dbHelper");
+  T_metatableManager man = new T_metatableManager(dbHelper.getDataSource());
+
+  /**
+   * Select from the database for table "t_metatable"
+   */
+  @Test
+  public void testSelect() {
+    List<T_metatable> list = man.select("", "", 0, 10);
+    for (T_metatable info : list) {
+      System.out.println(info.toXml());
     }
-}
+  }
 
-@Test
-public void testCount() throws SQLException
-{
-  T_metatableManager man = new T_metatableManager();
+  @Test
+  public void testCount() {
     Assert.assertTrue(man.count("") >= 0);
-}
+  }
 
-@Test
-public void testInsertdummy() throws SQLException
-{
-  T_metatableManager man = new T_metatableManager();
+  @Test
+  public void testInsertdummy() {
     Assert.assertTrue(man.insertDummy());
 }
 

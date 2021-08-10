@@ -33,28 +33,30 @@ public class ProjectConfig {
     boolean indexes;
     boolean overWriteAll = false;
     boolean useCustomMetaTable = false;
-    boolean use_annotation = false;
-    boolean use_swagger = true;
-    boolean use_autoincrement = false;
-    boolean generate_procedures = true;
+    boolean useAnnotation = false;
+    boolean useSwagger = true;
+    boolean useAutoincrement = false;
+
+    boolean generateProcedures = true;
     boolean generateAll=false;
     /**
      * additional settings, used for comments, data checking, interfaces, etc.
      */
-    String extra_setting;
+    String extraSetting;
     /**
      * If the extended table is available, each table can implement the following interfaces
      */
-    String pojo_node_interface;
-    String pojo_version_interface;
-    String pojo_state_interface;
-    String pojo_uuid_interface;
-    String pojo_modifydate_interface;
-    List<String> pojo_node_interface_list;
-    List<String> pojo_version_interface_list;
-    List<String> pojo_state_interface_list;
-    List<String> pojo_uuid_interface_list;
-    List<String> pojo_modifydate_interface_list;
+    String pojoNodeInterface;
+    String pojoVersionInterface;
+    String pojoStateInterface;
+    String pojoUuidInterface;
+    String pojoModifyDateInterface;
+
+    List<String> pojoNodeInterfaceList;
+    List<String> pojoVersionInterfaceList;
+    List<String> pojoStateInterfaceList;
+    List<String> pojoUuidInterfaceList;
+    List<String> pojoModifyDateInterfaceList;
     /**
      * names of tables to generate for. If null we do all.
      */
@@ -91,7 +93,7 @@ public class ProjectConfig {
         c.indexes = getBooleanCfg(props, "indexes");
         c.useCustomMetaTable = getBooleanCfg(props, "use_custom_meta_table");
 
-        c.generate_procedures = getBooleanCfg(props, "generate_procedures");
+        c.generateProcedures = getBooleanCfg(props, "generate_procedures");
 
         c.addPrefix = props.getProperty("add_prefix");
         if ( c.addPrefix == null) {
@@ -108,24 +110,24 @@ public class ProjectConfig {
         c.parseExcludeTableNames(props.getProperty("exclude_table_list"));
 
         // 有扩展表时用以下interface的设置值
-        c.pojo_node_interface = props.getProperty("pojo_node_interface");
-        c.pojo_version_interface = props.getProperty("pojo_version_interface");
-        c.pojo_state_interface = props.getProperty("pojo_state_interface");
-        c.pojo_uuid_interface = props.getProperty("pojo_uuid_interface");
-        c.pojo_modifydate_interface = props.getProperty("pojo_modifydate_interface");
+        c.pojoNodeInterface = props.getProperty("pojo_node_interface");
+        c.pojoVersionInterface = props.getProperty("pojo_version_interface");
+        c.pojoStateInterface = props.getProperty("pojo_state_interface");
+        c.pojoUuidInterface = props.getProperty("pojo_uuid_interface");
+        c.pojoModifyDateInterface = props.getProperty("pojo_modifydate_interface");
 
-        c.pojo_node_interface_list =  makeList(props.getProperty("pojo_node_interface_list"));
-        c.pojo_version_interface_list = makeList(props.getProperty("pojo_version_interface_list"));
-        c.pojo_state_interface_list = makeList(props.getProperty("pojo_state_interface_list"));
-        c.pojo_uuid_interface_list = makeList(props.getProperty("pojo_uuid_interface_list"));
-        c.pojo_modifydate_interface_list = makeList(props.getProperty("pojo_modifydate_interface_list"));
+        c.pojoNodeInterfaceList =  makeList(props.getProperty("pojo_node_interface_list"));
+        c.pojoVersionInterfaceList = makeList(props.getProperty("pojo_version_interface_list"));
+        c.pojoStateInterfaceList = makeList(props.getProperty("pojo_state_interface_list"));
+        c.pojoUuidInterfaceList = makeList(props.getProperty("pojo_uuid_interface_list"));
+        c.pojoModifyDateInterfaceList = makeList(props.getProperty("pojo_modifydate_interface_list"));
 
         c.overWriteAll = getBooleanCfg(props, "over_write_all");
-        c.use_annotation = getBooleanCfg(props, "use_annotation");
-        c.use_autoincrement = getBooleanCfg(props, "use_autoincrement");
+        c.useAnnotation = getBooleanCfg(props, "use_annotation");
+        c.useAutoincrement = getBooleanCfg(props, "use_autoincrement");
         c.generateAll = getBooleanCfg(props, "generate_all");
 
-        c.extra_setting = props.getProperty("extra_setting");
+        c.extraSetting = props.getProperty("extra_setting");
 
         return c;
     }
@@ -150,12 +152,12 @@ public class ProjectConfig {
         this.viewList = viewList;
     }
 
-    public boolean isUse_swagger() {
-        return use_swagger;
+    public boolean isUseSwagger() {
+        return useSwagger;
     }
 
-    public void setUse_swagger(boolean use_swagger) {
-        this.use_swagger = use_swagger;
+    public void setUseSwagger(boolean useSwagger) {
+        this.useSwagger = useSwagger;
     }
 
     public String getBaseDir() {
@@ -270,28 +272,28 @@ public class ProjectConfig {
         this.useCustomMetaTable = useCustomMetaTable;
     }
 
-    public boolean isUse_annotation() {
-        return use_annotation;
+    public boolean isUseAnnotation() {
+        return useAnnotation;
     }
 
-    public void setUse_annotation(boolean use_annotation) {
-        this.use_annotation = use_annotation;
+    public void setUseAnnotation(boolean useAnnotation) {
+        this.useAnnotation = useAnnotation;
     }
 
-    public boolean isUse_autoincrement() {
-        return use_autoincrement;
+    public boolean isUseAutoincrement() {
+        return useAutoincrement;
     }
 
-    public void setUse_autoincrement(boolean use_autoincrement) {
-        this.use_autoincrement = use_autoincrement;
+    public void setUseAutoincrement(boolean useAutoincrement) {
+        this.useAutoincrement = useAutoincrement;
     }
 
-    public boolean isGenerate_procedures() {
-        return generate_procedures;
+    public boolean isGenerateProcedures() {
+        return generateProcedures;
     }
 
-    public void setGenerate_procedures(boolean generate_procedures) {
-        this.generate_procedures = generate_procedures;
+    public void setGenerateProcedures(boolean generateProcedures) {
+        this.generateProcedures = generateProcedures;
     }
 
     public boolean isGenerateAll() {
@@ -302,92 +304,92 @@ public class ProjectConfig {
         this.generateAll = generateAll;
     }
 
-    public String getExtra_setting() {
-        return extra_setting;
+    public String getExtraSetting() {
+        return extraSetting;
     }
 
-    public void setExtra_setting(String extra_setting) {
-        this.extra_setting = extra_setting;
+    public void setExtraSetting(String extraSetting) {
+        this.extraSetting = extraSetting;
     }
 
-    public String getPojo_node_interface() {
-        return pojo_node_interface;
+    public String getPojoNodeInterface() {
+        return pojoNodeInterface;
     }
 
-    public void setPojo_node_interface(String pojo_node_interface) {
-        this.pojo_node_interface = pojo_node_interface;
+    public void setPojoNodeInterface(String pojoNodeInterface) {
+        this.pojoNodeInterface = pojoNodeInterface;
     }
 
-    public String getPojo_version_interface() {
-        return pojo_version_interface;
+    public String getPojoVersionInterface() {
+        return pojoVersionInterface;
     }
 
-    public void setPojo_version_interface(String pojo_version_interface) {
-        this.pojo_version_interface = pojo_version_interface;
+    public void setPojoVersionInterface(String pojoVersionInterface) {
+        this.pojoVersionInterface = pojoVersionInterface;
     }
 
-    public String getPojo_state_interface() {
-        return pojo_state_interface;
+    public String getPojoStateInterface() {
+        return pojoStateInterface;
     }
 
-    public void setPojo_state_interface(String pojo_state_interface) {
-        this.pojo_state_interface = pojo_state_interface;
+    public void setPojoStateInterface(String pojoStateInterface) {
+        this.pojoStateInterface = pojoStateInterface;
     }
 
-    public String getPojo_uuid_interface() {
-        return pojo_uuid_interface;
+    public String getPojoUuidInterface() {
+        return pojoUuidInterface;
     }
 
-    public void setPojo_uuid_interface(String pojo_uuid_interface) {
-        this.pojo_uuid_interface = pojo_uuid_interface;
+    public void setPojoUuidInterface(String pojoUuidInterface) {
+        this.pojoUuidInterface = pojoUuidInterface;
     }
 
-    public String getPojo_modifydate_interface() {
-        return pojo_modifydate_interface;
+    public String getPojoModifyDateInterface() {
+        return pojoModifyDateInterface;
     }
 
-    public void setPojo_modifydate_interface(String pojo_modifydate_interface) {
-        this.pojo_modifydate_interface = pojo_modifydate_interface;
+    public void setPojoModifyDateInterface(String pojoModifyDateInterface) {
+        this.pojoModifyDateInterface = pojoModifyDateInterface;
     }
 
-    public List<String> getPojo_node_interface_list() {
-        return pojo_node_interface_list;
+    public List<String> getPojoNodeInterfaceList() {
+        return pojoNodeInterfaceList;
     }
 
-    public void setPojo_node_interface_list(List<String> pojo_node_interface_list) {
-        this.pojo_node_interface_list = pojo_node_interface_list;
+    public void setPojoNodeInterfaceList(List<String> pojoNodeInterfaceList) {
+        this.pojoNodeInterfaceList = pojoNodeInterfaceList;
     }
 
-    public List<String> getPojo_version_interface_list() {
-        return pojo_version_interface_list;
+    public List<String> getPojoVersionInterfaceList() {
+        return pojoVersionInterfaceList;
     }
 
-    public void setPojo_version_interface_list(List<String> pojo_version_interface_list) {
-        this.pojo_version_interface_list = pojo_version_interface_list;
+    public void setPojoVersionInterfaceList(List<String> pojoVersionInterfaceList) {
+        this.pojoVersionInterfaceList = pojoVersionInterfaceList;
     }
 
-    public List<String> getPojo_state_interface_list() {
-        return pojo_state_interface_list;
+    public List<String> getPojoStateInterfaceList() {
+        return pojoStateInterfaceList;
     }
 
-    public void setPojo_state_interface_list(List<String> pojo_state_interface_list) {
-        this.pojo_state_interface_list = pojo_state_interface_list;
+    public void setPojoStateInterfaceList(List<String> pojoStateInterfaceList) {
+        this.pojoStateInterfaceList = pojoStateInterfaceList;
     }
 
-    public List<String> getPojo_uuid_interface_list() {
-        return pojo_uuid_interface_list;
+    public List<String> getPojoUuidInterfaceList() {
+        return pojoUuidInterfaceList;
     }
 
-    public void setPojo_uuid_interface_list(List<String> pojo_uuid_interface_list) {
-        this.pojo_uuid_interface_list = pojo_uuid_interface_list;
+    public void setPojoUuidInterfaceList(List<String> pojoUuidInterfaceList) {
+        this.pojoUuidInterfaceList = pojoUuidInterfaceList;
     }
 
-    public List<String> getPojo_modifydate_interface_list() {
-        return pojo_modifydate_interface_list;
+    public List<String> getPojoModifyDateInterfaceList() {
+        return pojoModifyDateInterfaceList;
     }
 
-    public void setPojo_modifydate_interface_list(List<String> pojo_modifydate_interface_list) {
-        this.pojo_modifydate_interface_list = pojo_modifydate_interface_list;
+    public void setPojoModifyDateInterfaceList(List<String> pojoModifyDateInterfaceList) {
+        this.pojoModifyDateInterfaceList = pojoModifyDateInterfaceList;
     }
 
     public Map<String, String> getTablesList() {

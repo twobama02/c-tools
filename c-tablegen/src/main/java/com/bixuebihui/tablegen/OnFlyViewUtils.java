@@ -14,10 +14,11 @@ import static java.sql.ResultSetMetaData.columnNullable;
 /**
  * Suitable to use when view is not available, for example the DBA not allowed to create view for some reasons.
  * So we use plain sql for ORM
+ * @author xwx
  */
 public class OnFlyViewUtils {
 
-    public static TableInfo getColumnData(ResultSetMetaData rs, String onFlyViewName, int dbtype) throws SQLException {
+    public static TableInfo getColumnData(ResultSetMetaData rs, String onFlyViewName, int dbType) throws SQLException {
         List<ColumnData> colData = new ArrayList<>();
 
         ColumnData cd;
@@ -49,7 +50,7 @@ public class OnFlyViewUtils {
 
                 //Access driver have not a column named IS_AUTOINCREMENT
                 // 23
-                isAutoIncrement = (dbtype != BaseDao.ACCESS) && rs.isAutoIncrement(i);
+                isAutoIncrement = (dbType != BaseDao.ACCESS) && rs.isAutoIncrement(i);
 
                 //.getString("DECIMAL_DIGITS");
                 decimalDigits = rs.getPrecision(i);
@@ -78,6 +79,7 @@ public class OnFlyViewUtils {
         }
         TableInfo tableInfo = new TableInfo(onFlyViewName);
         tableInfo.setFields(colData);
+        tableInfo.setView(true);
 
         return tableInfo;
 

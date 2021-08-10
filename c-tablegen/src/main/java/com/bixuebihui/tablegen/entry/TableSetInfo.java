@@ -202,23 +202,23 @@ public class TableSetInfo {
         } else {
             res = new T_metatable();
             boolean any = false;
-            if (config.getPojo_node_interface_list().contains(tableName)) {
+            if (config.getPojoNodeInterfaceList().contains(tableName)) {
                 res.setIsnode(true);
                 any = true;
             }
-            if (config.getPojo_state_interface_list().contains(tableName)) {
+            if (config.getPojoStateInterfaceList().contains(tableName)) {
                 res.setIsstate(true);
                 any = true;
             }
-            if (config.getPojo_version_interface_list().contains(tableName)) {
+            if (config.getPojoVersionInterfaceList().contains(tableName)) {
                 res.setIsversion(true);
                 any = true;
             }
-            if (config.getPojo_modifydate_interface_list().contains(tableName)) {
+            if (config.getPojoModifyDateInterfaceList().contains(tableName)) {
                 res.setIsmodifydate(true);
                 any = true;
             }
-            if (config.getPojo_uuid_interface_list().contains(tableName)) {
+            if (config.getPojoUuidInterfaceList().contains(tableName)) {
                 res.setIsuuid(true);
                 any = true;
             }
@@ -236,19 +236,19 @@ public class TableSetInfo {
         T_metatable tab = getTableDetail(tableName, config);
         if (tab != null) {
             if (tab.getIsnode()) {
-                sb.append(", ").append(config.getPojo_node_interface());
+                sb.append(", ").append(config.getPojoNodeInterface());
             }
             if (tab.getIsstate()) {
-                sb.append(", ").append(config.getPojo_state_interface());
+                sb.append(", ").append(config.getPojoStateInterface());
             }
             if (tab.getIsversion()) {
-                sb.append(", ").append(config.getPojo_version_interface());
+                sb.append(", ").append(config.getPojoVersionInterface());
             }
             if (tab.getIsmodifydate()) {
-                sb.append(", ").append(config.getPojo_modifydate_interface());
+                sb.append(", ").append(config.getPojoModifyDateInterface());
             }
             if (tab.getIsuuid()) {
-                sb.append(", ").append(config.getPojo_uuid_interface());
+                sb.append(", ").append(config.getPojoUuidInterface());
             }
             if (StringUtils.isNotBlank(tab.getExtrainterfaces())) {
                 sb.append(", ").append(tab.getExtrainterfaces());
@@ -271,7 +271,7 @@ public class TableSetInfo {
     public Map<String, T_metatable> getTableDataExt(IDbHelper dbHelper, LinkedHashMap<String, TableInfo> tables)
             throws SQLException {
         HashMap<String, T_metatable> ht = new HashMap<>(tables.size()*2);
-        T_metatableManager daoMetaTable = new T_metatableManager();
+        T_metatableManager daoMetaTable = new T_metatableManager(dbHelper.getDataSource());
         daoMetaTable.setDbHelper(dbHelper);
 
         setupMetaTable(dbHelper, daoMetaTable);
@@ -511,9 +511,9 @@ public class TableSetInfo {
             }
 
             // Custom meta info from xml
-            if (StringUtils.isNotEmpty(config.getExtra_setting())) {
+            if (StringUtils.isNotEmpty(config.getExtraSetting())) {
                 setTableDataExt(getExtraTableDataFromXml(
-                        config.getBaseDir() + config.getExtra_setting(), getTableDataExt()));
+                        config.getBaseDir() + config.getExtraSetting(), getTableDataExt()));
             }
         }
 

@@ -45,7 +45,7 @@ public class SqlFilterTest {
 		SqlFilter cond1 = new SqlFilter();
 		cond1.contain("name", "dff");
 		cond.or(cond1);
-		SqlFilter res = filter.or(cond);
+		filter.or(cond);
 
 		SqlObject obj = filter.toSqlObject();
 

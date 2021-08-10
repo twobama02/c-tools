@@ -13,6 +13,7 @@ import com.bixuebihui.generated.tablegen.BaseList;
 import com.bixuebihui.generated.tablegen.pojo.T_metatable;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,8 +25,9 @@ public class T_metatableList  extends BaseList<T_metatable,Long>
 /**
   * Don't direct use the T_metatableListList, use T_metatableListManager instead.
   */
-protected T_metatableList()
+protected T_metatableList(DataSource ds)
 {
+    super(ds);
 }
 
 /**

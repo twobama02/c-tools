@@ -3,6 +3,7 @@ package com.bixuebihui.jdbc;
 import com.bixuebihui.DbException;
 import com.bixuebihui.db.*;
 import com.bixuebihui.db.Record.GroupFunction;
+import com.bixuebihui.jdbc.aop.DbHelperAroundAdvice;
 import com.bixuebihui.jdbc.entity.CountObject;
 import com.bixuebihui.jdbc.entity.CountValue;
 import com.bixuebihui.sequence.SequenceUtils;
@@ -15,7 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.ProxyFactory;
 
+import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -151,6 +154,24 @@ public abstract class BaseDao<T, V> implements RowMapper<T>, IBaseListService<T,
      */
     public BaseDao(IDbHelper dbHelper) {
         this.dbHelper = dbHelper;
+    }
+
+    public BaseDao(DataSource ds) {
+        this(ds,ds);
+    }
+
+    public BaseDao(DataSource master, DataSource slave) {
+        MSDbHelper dbHelper0 = new MSDbHelper();
+        dbHelper0.setMasterDatasource(master);
+        dbHelper0.setDataSource(slave);
+
+        if (LOG.isDebugEnabled()) {
+            ProxyFactory obj = new ProxyFactory(dbHelper0);
+            obj.addAdvice(new DbHelperAroundAdvice());
+            dbHelper = (IDbHelper) obj.getProxy();
+        } else {
+            dbHelper = dbHelper0;
+        }
     }
 
     /**
