@@ -44,7 +44,7 @@ public class GenerateAll implements DiffHandler {
     private BaseListGenerator generator;
 
 
-    public void run(String filename) throws SQLException {
+    public void run(String filename) {
         run(filename, System.out);
     }
 

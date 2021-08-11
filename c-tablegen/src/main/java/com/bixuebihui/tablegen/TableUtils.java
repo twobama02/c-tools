@@ -592,6 +592,34 @@ public class TableUtils {
      * NO --- 如果该列不自动增加
      * 空字符串 --- 如果不能确定该列是否是自动增加参数
      * COLUMN_SIZE 列表示给定列的指定列大小。对于数值数据，这是最大精度。对于字符数据，这是字符长度。对于日期时间数据类型，这是 String 表示形式的字符长度（假定允许的最大小数秒组件的精度）。对于二进制数据，这是字节长度。对于 ROWID 数据类型，这是字节长度。对于列大小不适用的数据类型，则返回 Null。
+     *
+     *
+     * mysql-java-connector 8 metadata:
+     * 0 columnName=TABLE_CAT,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 1 columnName=TABLE_SCHEM,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 2 columnName=TABLE_NAME,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 3 columnName=COLUMN_NAME,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 4 columnName=DATA_TYPE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 5 columnName=TYPE_NAME,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 6 columnName=COLUMN_SIZE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 7 columnName=BUFFER_LENGTH,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 8 columnName=DECIMAL_DIGITS,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 9 columnName=NUM_PREC_RADIX,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 10 columnName=NULLABLE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 11 columnName=REMARKS,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 12 columnName=COLUMN_DEF,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 13 columnName=SQL_DATA_TYPE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 14 columnName=SQL_DATETIME_SUB,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 15 columnName=CHAR_OCTET_LENGTH,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 16 columnName=ORDINAL_POSITION,originalColumnName=null,mysqlType=-1(FIELD_TYPE_INT),sqlType=4,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 17 columnName=IS_NULLABLE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 18 columnName=SCOPE_CATALOG,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 19 columnName=SCOPE_SCHEMA,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 20 columnName=SCOPE_TABLE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 21 columnName=SOURCE_DATA_TYPE,originalColumnName=null,mysqlType=-1(FIELD_TYPE_SMALLINT),sqlType=5,flags=, charsetIndex=0, charsetName=US-ASCII]"
+     * 22 columnName=IS_AUTOINCREMENT,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     * 23 columnName=IS_GENERATEDCOLUMN,originalColumnName=null,mysqlType=-1(FIELD_TYPE_CHAR),sqlType=1,flags=, charsetIndex=255, charsetName=UTF-8]"
+     *
      * <p>
      * <p>
      * 参数：
@@ -608,37 +636,41 @@ public class TableUtils {
 
         ResultSet rs = metaData.getColumns(catalog, schema, tableName, "%");
 
-        int dbtype = BaseDao.detectDbType(metaData.getDriverName());
+        int dbType = BaseDao.detectDbType(metaData.getDriverName());
 
         ColumnData cd;
         int colType;
         int colCols;
         int decimalDigits = 0;
         boolean isNullable;
-        boolean isAuto_increment;
+        boolean isAutoIncrement;
         String defaultValue;
         String remarks;
 
-
+       // int prevPos=0;
         try {
             while (rs.next()) {
 
                 String colName = rs.getString(4);
+
+                System.out.println("TABLE_SCHEM="+rs.getObject("TABLE_SCHEM")+" TABLE_CAT="+rs.getObject("TABLE_CAT")+" colName="+colName+"colName="+colName+" IS_GENERATEDCOLUMN="+ rs.getObject("IS_GENERATEDCOLUMN")+" ORDINAL_POSITION="+rs.getObject("ORDINAL_POSITION"));
+
+               // int curColumnPos = rs.getInt("ORDINAL_POSITION");
+
+                //mysql-connector-java 8.x.x return already deleted columns, so skip those columns!
+//                if(curColumnPos<prevPos){
+//                    break;
+//                }else{
+//                    prevPos = curColumnPos;
+//                }
 
                 //oracle system columns
                 if (colName.contains("#"))
                 {
                     continue;
                 }
-                boolean existsCol = false;
-                for (ColumnData dt : colData) {
-                    if (dt.getName().equalsIgnoreCase(colName)) {
-                        existsCol = true;
-                        break;
-                    }
-                }
-                if (existsCol) {
-                    continue;
+                if (isExistsCol(colData, colName)) {
+                    break;
                 }
 
                 // 17
@@ -646,7 +678,7 @@ public class TableUtils {
 
                 //Access driver have not a column named IS_AUTOINCREMENT
                 // 23
-                isAuto_increment = (dbtype != BaseDao.ACCESS) && NameUtils.isYes(rs.getString("IS_AUTOINCREMENT"));
+                isAutoIncrement = (dbType != BaseDao.ACCESS) && NameUtils.isYes(rs.getString("IS_AUTOINCREMENT"));
 
                 String digits = rs.getString("DECIMAL_DIGITS");
                 if (StringUtils.isNumeric(digits)) {
@@ -664,7 +696,7 @@ public class TableUtils {
                 // size e.g. varchar(20)
                 colCols = rs.getInt(7);
                 cd = new ColumnData(colName, colType, colCols, isNullable,
-                        isAuto_increment, decimalDigits, defaultValue, remarks);
+                        isAutoIncrement, decimalDigits, defaultValue, remarks);
                 colData.add(cd);
             }
         } catch (SQLException e) {
@@ -684,6 +716,15 @@ public class TableUtils {
 
         return tableInfo;
 
+    }
+
+    private static boolean isExistsCol(List<ColumnData> colData, String colName) {
+        for (ColumnData dt : colData) {
+            if (dt.getName().equalsIgnoreCase(colName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public  static  String getColumnDescription(ProjectConfig config, Map<String, T_metacolumn> cols, String tableName, ColumnData col) {

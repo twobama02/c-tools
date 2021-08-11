@@ -69,6 +69,10 @@ public class ProjectConfig {
 
         c.alias = props.getProperty("alias");
         c.baseDir = baseDir;
+        c.schema = props.getProperty("schema");
+        LOG.debug("schema:" +  c.schema);
+        c.catalog = props.getProperty("catalog");
+        LOG.debug("catalog:" +  c.catalog);
 
         c.srcDir = baseDir + props.getProperty("src_dir");
         LOG.debug("src_dir:" +  c.srcDir);
@@ -85,8 +89,7 @@ public class ProjectConfig {
         LOG.debug("jsp_dir:" +  c.jspDir);
         c.packageName = props.getProperty("package_name");
         LOG.debug("package_name:" +  c.packageName);
-        c.schema = props.getProperty("schema");
-        LOG.debug("schema:" +  c.schema);
+
         c.tableOwner = props.getProperty("table_owner");
         LOG.debug("table_owner:" +  c.tableOwner);
 
