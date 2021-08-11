@@ -74,20 +74,32 @@ public class {{className}}  extends {{#if tableInfo.isView}}AbstractViewBaseDao{
       return new Object[]{ {{updateObjects}} };
    }
 {{/unless}}
-    {{! writeGetTableName(tableName, "getTableName", false); }}
+
+{{#if tableInfo.isView}}
+    /**
+    * Get table view sql.
+    */
+    protected String getCoreSql()
+    {
+    {{#if tableInfo.isView}}
+    {{!    tripple { for unescape equals sign '='  }}
+        return "{{{tableInfo.comment}}}";
+    {{~ else ~}}
+        return  "{{tableName}}";
+    {{/if}}
+    }
+{{/if}}
     /**
      * Get table name.
      */
     @Override
     public String getTableName()
     {
-{{#if hasKey}}
-      return  "{{tableName}}";
+{{#if tableInfo.isView}}
+      return "("+this.getCoreSql()+") as {{tableName}}";
 {{~ else ~}}
-{{!    tripple { for unescape equals sign '='  }}
-      return "({{{tableInfo.comment}}}) as {{tableName}}";
+      return  "{{tableName}}";
 {{/if}}
-
     }
 
     {{!    writeGetKeyName(getFirstKeyName(keyData)); }}

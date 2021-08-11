@@ -74,7 +74,6 @@ public class DataSourceTest extends TestCase {
 			Statement stmt = null;
 			try {
 				cn = ds.getConnection();
-				//log.info("cn = " + cn.toString());
 				stmt = cn.createStatement();
 
 				rs = stmt.executeQuery("select 1+" + i + " " + sql);
@@ -107,7 +106,7 @@ public class DataSourceTest extends TestCase {
 		long v1 = SequenceUtils.getInstance().getNextKeyValue(keyName, dbHelper);
 		long v2 = SequenceUtils.getInstance().getNextKeyValue(keyName, dbHelper);
 
-		assertTrue(v1+1==v2);
+		assertEquals(v1 + 1, v2);
 	}
 
 	private static void  createT_LOG(DataSource ds){
@@ -118,7 +117,7 @@ public class DataSourceTest extends TestCase {
 			stmt.execute("CREATE TABLE t_log(lid INT PRIMARY KEY, content VARCHAR(255))");
 
 		}catch (Exception e){
-			e.printStackTrace();
+			LOG.error("create t_log",e);
 		}
 	}
 
