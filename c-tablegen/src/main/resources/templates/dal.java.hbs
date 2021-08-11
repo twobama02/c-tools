@@ -120,7 +120,7 @@ public class {{className}}  extends {{#if tableInfo.isView}}AbstractViewBaseDao{
     public {{firstKeyType}} getId({{pojoClassName}} info) {
         return info.get{{firstUp firstKeyName}}();
     }
-
+{{#unless tableInfo.isView}}
     @Override
     public void setId({{pojoClassName}} info, {{firstKeyType}} id) {
     {{#if hasKey}}
@@ -138,6 +138,7 @@ public class {{className}}  extends {{#if tableInfo.isView}}AbstractViewBaseDao{
         //no key to set, don't use this method!
     {{/if}}
     }
+{{/unless}}
 {{! writeGetNextKey(keyData, colData); }}
 {{#if hasKey}}{{#unless tableInfo.isView}}
       {{#eq firstKeyType "Timestamp"}}
